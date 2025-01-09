@@ -1,4 +1,5 @@
-﻿using AttendanceEpiisBk.Modules.Teacher.Domain.Entity;
+﻿using AttendanceEpiisBk.Modules.Attendance.Domain.Entity;
+using AttendanceEpiisBk.Modules.Teacher.Domain.Entity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -9,7 +10,7 @@ public class AttendanceEntityConfiguration : IEntityTypeConfiguration<Attendance
         public void Configure(EntityTypeBuilder<AttendanceEntity> builder)
         {
             builder.ToTable("Attendance");
-            builder.HasKey(a => a.Id);
+            builder.HasKey(a => a.IdAttendance);
 
             builder.Property(a => a.Date)
                 .IsRequired();

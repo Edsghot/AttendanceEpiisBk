@@ -96,7 +96,7 @@ namespace AttendanceEpiisBk.Migrations
                 name: "Attendance",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    IdAttendance = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Date = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     IsPresent = table.Column<bool>(type: "tinyint(1)", nullable: false),
@@ -106,7 +106,7 @@ namespace AttendanceEpiisBk.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Attendance", x => x.Id);
+                    table.PrimaryKey("PK_Attendance", x => x.IdAttendance);
                     table.ForeignKey(
                         name: "FK_Attendance_Event_EventId",
                         column: x => x.EventId,

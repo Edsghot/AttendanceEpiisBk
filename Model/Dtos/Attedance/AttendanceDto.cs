@@ -2,7 +2,7 @@
 
 public record AttendanceDto
 {
-    public int Id { get; set; }
+    public int IdAttendance { get; set; }
     public DateTime Date { get; set; }
     public bool IsPresent { get; set; }
     public int EventId { get; set; }

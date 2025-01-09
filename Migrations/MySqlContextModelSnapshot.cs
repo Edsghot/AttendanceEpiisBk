@@ -19,6 +19,38 @@ namespace AttendanceEpiisBk.Migrations
                 .HasAnnotation("ProductVersion", "6.0.36")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
+            modelBuilder.Entity("AttendanceEpiisBk.Modules.Attendance.Domain.Entity.AttendanceEntity", b =>
+                {
+                    b.Property<int>("IdAttendance")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("EventId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsPresent")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<int>("StudentId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TeacherId")
+                        .HasColumnType("int");
+
+                    b.HasKey("IdAttendance");
+
+                    b.HasIndex("EventId");
+
+                    b.HasIndex("StudentId");
+
+                    b.HasIndex("TeacherId");
+
+                    b.ToTable("Attendance", (string)null);
+                });
+
             modelBuilder.Entity("AttendanceEpiisBk.Modules.Event.Domain.Entity.EventEntity", b =>
                 {
                     b.Property<int>("IdEvent")
@@ -109,38 +141,6 @@ namespace AttendanceEpiisBk.Migrations
                     b.ToTable("Student", (string)null);
                 });
 
-            modelBuilder.Entity("AttendanceEpiisBk.Modules.Teacher.Domain.Entity.AttendanceEntity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<int>("EventId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsPresent")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<int>("StudentId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TeacherId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EventId");
-
-                    b.HasIndex("StudentId");
-
-                    b.HasIndex("TeacherId");
-
-                    b.ToTable("Attendance", (string)null);
-                });
-
             modelBuilder.Entity("AttendanceEpiisBk.Modules.Teacher.Domain.Entity.TeacherEntity", b =>
                 {
                     b.Property<int>("IdTeacher")
@@ -187,7 +187,7 @@ namespace AttendanceEpiisBk.Migrations
                     b.ToTable("Teacher", (string)null);
                 });
 
-            modelBuilder.Entity("AttendanceEpiisBk.Modules.Teacher.Domain.Entity.AttendanceEntity", b =>
+            modelBuilder.Entity("AttendanceEpiisBk.Modules.Attendance.Domain.Entity.AttendanceEntity", b =>
                 {
                     b.HasOne("AttendanceEpiisBk.Modules.Event.Domain.Entity.EventEntity", "Event")
                         .WithMany("Attendances")

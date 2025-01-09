@@ -3,6 +3,7 @@ using AttendanceEpiisBk.Model.Dtos.Event;
 using AttendanceEpiisBk.Model.Dtos.Student;
 using Mapster;
 using AttendanceEpiisBk.Model.Dtos.Teacher;
+using AttendanceEpiisBk.Modules.Attendance.Domain.Entity;
 using AttendanceEpiisBk.Modules.Event.Domain.Entity;
 using AttendanceEpiisBk.Modules.Student.Domain.Entity;
 using AttendanceEpiisBk.Modules.Teacher.Domain.Entity;

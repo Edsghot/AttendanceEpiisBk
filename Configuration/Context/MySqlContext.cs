@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using AttendanceEpiisBk.Configuration.Context.EntityConfigurations;
+using AttendanceEpiisBk.Modules.Attendance.Domain.Entity;
 using AttendanceEpiisBk.Modules.Event.Domain.Entity;
 using AttendanceEpiisBk.Modules.Student.Domain.Entity;
 using AttendanceEpiisBk.Modules.Teacher.Domain.Entity;

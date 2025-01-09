@@ -1,4 +1,6 @@
-﻿namespace AttendanceEpiisBk.Modules.Teacher.Domain.Entity;
+﻿using AttendanceEpiisBk.Modules.Attendance.Domain.Entity;
+
+namespace AttendanceEpiisBk.Modules.Teacher.Domain.Entity;
 
 public record TeacherEntity
 {

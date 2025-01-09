@@ -1,4 +1,5 @@
-﻿using AttendanceEpiisBk.Modules.Teacher.Domain.Entity;
+﻿using AttendanceEpiisBk.Modules.Attendance.Domain.Entity;
+using AttendanceEpiisBk.Modules.Teacher.Domain.Entity;
 
 namespace AttendanceEpiisBk.Modules.Student.Domain.Entity;
 
