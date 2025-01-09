@@ -1,0 +1,7 @@
+# Ignorar archivos y carpetas generadas por el compilador de .NET
+/bin/
+/obj/
+
+# Archivos y carpetas de configuración de Visual Studio
+.vs/
+.vscode/
