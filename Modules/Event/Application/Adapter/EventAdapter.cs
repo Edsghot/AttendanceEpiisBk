@@ -6,6 +6,7 @@ using AttendanceEpiisBk.Modules.Attendance.Domain.Entity;
 using AttendanceEpiisBk.Modules.Event.Application.Port;
 using AttendanceEpiisBk.Modules.Event.Domain.Entity;
 using AttendanceEpiisBk.Modules.Event.Domain.IRepository;
+using AttendanceEpiisBk.Modules.Student.Domain.Entity;
 using AttendanceEpiisBk.Modules.Teacher.Domain.Entity;
 
 namespace AttendanceEpiisBk.Modules.Event.Application.Adapter;
@@ -61,18 +62,42 @@ public class EventAdapter : IEventInputPort
     
     public async Task GetParticipantsAsync(int eventId)
     {
-        var participants = await _eventRepository.GetAllAsync<AttendanceEntity>(x => x.Where(s=> s.EventId == eventId) );
+        var participants = await _eventRepository.GetAllAsync<AttendanceEntity>(
+            x => x.Where(s => s.EventId == eventId)
+                .Include(s => s.Teacher)
+                .Include(s => s.Student)
+        );
 
-        var participant = participants.Select(p => new ParticipantDto
+        var participantDtos = new List<ParticipantDto>();
+
+        foreach (var participant in participants)
         {
-            FirstName = p.Teacher?.FirstName ?? p.Student?.FirstName,
-            LastName = p.Teacher?.LastName ?? p.Student?.LastName,
-            Role = p.TeacherId != null ? 0 : 1,
-            IsPresent = p.IsPresent,
-            Date = p.Date,
-        });
+            if (participant.Teacher != null)
+            {
+                participantDtos.Add(new ParticipantDto
+                {
+                    FirstName = participant.Teacher.FirstName,
+                    LastName = participant.Teacher.LastName,
+                    Role = 0,
+                    IsPresent = participant.IsPresent,
+                    Date = participant.Date,
+                });
+            }
 
-        _eventOutPort.GetParticipants(participant);
+            if (participant.Student != null)
+            {
+                participantDtos.Add(new ParticipantDto
+                {
+                    FirstName = participant.Student.FirstName,
+                    LastName = participant.Student.LastName,
+                    Role = 1,
+                    IsPresent = participant.IsPresent,
+                    Date = participant.Date,
+                });
+            }
+        }
+
+        _eventOutPort.GetParticipants(participantDtos);
     }
    
 }
