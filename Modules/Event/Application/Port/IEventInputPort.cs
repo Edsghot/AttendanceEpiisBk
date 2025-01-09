@@ -8,4 +8,5 @@ public interface IEventInputPort
     Task GetById(int id);
     Task GetAllAsync();
     Task AddEventAsync(EventDto eventDto);
+    Task GetParticipantsAsync(int eventId);
 }

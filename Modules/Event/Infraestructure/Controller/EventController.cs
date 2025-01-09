@@ -51,6 +51,13 @@ public class EventController : ControllerBase
         return Ok(response);
     }
     
+    [HttpGet("GetParticipants/{eventId:int}")]
+    public async Task<IActionResult> GetParticipants([FromRoute] int eventId)
+    {
+        await _eventInputPort.GetParticipantsAsync(eventId);
+        return Ok(_eventOutPort.GetResponse);
+    }
+    
     // PUT api/<ResearchController>/5
     [HttpPut("{id}")]
     public void Put(int id, [FromBody] string value)

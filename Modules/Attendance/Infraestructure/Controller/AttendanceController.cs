@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AttendanceEpiisBk.Model.Dtos.Attedance;
+using AttendanceEpiisBk.Model.Dtos.Event;
+using Microsoft.AspNetCore.Mvc;
 using AttendanceEpiisBk.Modules.Attendance.Application.Port;
 
 namespace AttendanceEpiisBk.Modules.Attendance.Infraestructure.Controller;
@@ -41,10 +43,13 @@ public class AttendanceController : ControllerBase
         return "value";
     }
 
-    // POST api/<ResearchController>
-    [HttpPost]
-    public void Post([FromBody] string value)
+    // POST api/<ResearchController>/AddParticipant
+    [HttpPost("AddParticipant")]
+    public async Task<IActionResult> AddParticipant([FromBody] InsertParticipantDto participantDto)
     {
+       
+            await _attendanceInputPort.AddParticipant(participantDto);
+            return Ok(_attendanceOutPort.GetResponse); 
     }
 
     // PUT api/<ResearchController>/5

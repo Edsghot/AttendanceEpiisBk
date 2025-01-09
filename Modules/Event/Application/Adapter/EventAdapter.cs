@@ -2,6 +2,7 @@
 using Mapster;
 using Microsoft.EntityFrameworkCore;
 using AttendanceEpiisBk.Model.Dtos.Teacher;
+using AttendanceEpiisBk.Modules.Attendance.Domain.Entity;
 using AttendanceEpiisBk.Modules.Event.Application.Port;
 using AttendanceEpiisBk.Modules.Event.Domain.Entity;
 using AttendanceEpiisBk.Modules.Event.Domain.IRepository;
@@ -57,4 +58,20 @@ public class EventAdapter : IEventInputPort
         await _eventRepository.SaveChangesAsync();
         _eventOutPort.EventAdded();
     }
+    
+    public async Task GetParticipantsAsync(int eventId)
+    {
+        var participants = await _eventRepository.GetAllAsync<AttendanceEntity>(x => x.Where(s=> s.EventId == eventId) );
+
+        var participant = participants.Select(p => new ParticipantDto
+        {
+            FirstName = p.Teacher?.FirstName ?? p.Student?.FirstName,
+            LastName = p.Teacher?.LastName ?? p.Student?.LastName,
+            Role = p.TeacherId != null ? 0 : 1,
+            IsPresent = p.IsPresent
+        });
+
+        _eventOutPort.GetParticipants(participant);
+    }
+   
 }

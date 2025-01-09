@@ -21,4 +21,9 @@ public class EventPresenter : BasePresenter<object>, IEventOutPort
     {
         Success("Evento creado correctamente");
     }
+
+    public void GetParticipants(IEnumerable<ParticipantDto> data)
+    {
+        Success(data);
+    }
 }

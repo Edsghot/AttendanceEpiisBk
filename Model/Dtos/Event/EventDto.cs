@@ -4,7 +4,7 @@ namespace AttendanceEpiisBk.Model.Dtos.Event;
 
 public record EventDto
 {
-    public int IdEvent { get; set; }
+    public int? IdEvent { get; set; }
     public string Name { get; set; } = string.Empty;
     public DateTime Date { get; set; }
     public DateTime StartTime { get; set; }
@@ -15,5 +15,5 @@ public record EventDto
     public TimeSpan Duration { get; set; }
     public int EventTypeId { get; set; }
 
-    public List<AttendanceDto> Attendances { get; set; } = default!;
+    public List<AttendanceDto>? Attendances { get; set; }
 }
