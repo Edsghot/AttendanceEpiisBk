@@ -7,6 +7,10 @@ using AttendanceEpiisBk.Modules.Teacher.Infraestructure.Repository;
 using Mapster;
 using Microsoft.EntityFrameworkCore;
 using AttendanceEpiisBk.Mapping;
+using AttendanceEpiisBk.Modules.Attendance.Application.Adapter;
+using AttendanceEpiisBk.Modules.Attendance.Application.Port;
+using AttendanceEpiisBk.Modules.Attendance.Infraestructure.Presenter;
+using AttendanceEpiisBk.Modules.Attendance.Infraestructure.Repository;
 using AttendanceEpiisBk.Modules.Event.Application.Adapter;
 using AttendanceEpiisBk.Modules.Event.Application.Port;
 using AttendanceEpiisBk.Modules.Event.Domain.IRepository;
@@ -43,6 +47,9 @@ builder.Services.AddScoped<IEventInputPort, EventAdapter>();
 builder.Services.AddScoped<IEventRepository, EventRepository>();
 builder.Services.AddScoped<IEventOutPort, EventPresenter>();
 
+builder.Services.AddScoped<IAttendanceInputPort, AttendanceAdapter>();
+builder.Services.AddScoped<IAttendanceRepository, AttendanceRepository>();
+builder.Services.AddScoped<IAttendanceOutPort, AttendancePresenter>();
 
 
 
