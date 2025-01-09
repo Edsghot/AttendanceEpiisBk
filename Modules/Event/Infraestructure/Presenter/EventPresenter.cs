@@ -16,4 +16,9 @@ public class EventPresenter : BasePresenter<object>, IEventOutPort
     {
         Success(data);
     }
+
+    public void EventAdded()
+    {
+        Success("Evento creado correctamente");
+    }
 }

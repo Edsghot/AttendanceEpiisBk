@@ -49,4 +49,12 @@ public class EventAdapter : IEventInputPort
 
         _eventOutPort.GetAllAsync(eventDtos);
     }
+    
+    public async Task AddEventAsync(EventDto eventDto)
+    {
+        var eventEntity = eventDto.Adapt<EventEntity>();
+        await _eventRepository.AddAsync(eventEntity);
+        await _eventRepository.SaveChangesAsync();
+        _eventOutPort.EventAdded();
+    }
 }

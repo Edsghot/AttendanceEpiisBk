@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AttendanceEpiisBk.Model.Dtos.Event;
+using Microsoft.AspNetCore.Mvc;
 using AttendanceEpiisBk.Modules.Event.Application.Port;
 
 namespace AttendanceEpiisBk.Modules.Event.Infraestructure.Controller;
@@ -16,7 +17,7 @@ public class EventController : ControllerBase
         _eventOutPort = eventOutPort;
     }
 
-    [HttpGet]
+    [HttpGet("GetAll")]
     public async Task<IActionResult> GetAll()
     {
         await _eventInputPort.GetAllAsync();
@@ -41,12 +42,15 @@ public class EventController : ControllerBase
         return "value";
     }
 
-    // POST api/<ResearchController>
     [HttpPost]
-    public void Post([FromBody] string value)
+    public async Task<IActionResult> Post([FromBody] EventDto eventDto)
     {
-    }
+        await _eventInputPort.AddEventAsync(eventDto);
+        var response = _eventOutPort.GetResponse;
 
+        return Ok(response);
+    }
+    
     // PUT api/<ResearchController>/5
     [HttpPut("{id}")]
     public void Put(int id, [FromBody] string value)

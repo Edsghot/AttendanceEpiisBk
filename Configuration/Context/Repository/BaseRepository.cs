@@ -54,4 +54,9 @@ public abstract class BaseRepository<TContext> : IBaseRepository where TContext 
         _context.Set<TEntity>().Remove(entity);
         await _context.SaveChangesAsync();
     }
+    
+    public async Task SaveChangesAsync()
+    {
+        await _context.SaveChangesAsync();
+    }
 }

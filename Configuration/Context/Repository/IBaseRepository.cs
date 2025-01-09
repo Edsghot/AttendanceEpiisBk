@@ -14,4 +14,5 @@ public interface IBaseRepository
     Task AddAsync<TEntity>(TEntity entity) where TEntity : class;
     Task UpdateAsync<TEntity>(TEntity entity) where TEntity : class;
     Task DeleteAsync<TEntity>(TEntity entity) where TEntity : class;
+    Task SaveChangesAsync();
 }

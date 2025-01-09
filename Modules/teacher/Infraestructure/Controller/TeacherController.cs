@@ -16,7 +16,7 @@ public class TeacherController : ControllerBase
         _teacherOutPort = teacherOutPort;
     }
 
-    [HttpGet]
+    [HttpGet("GetAll")]
     public async Task<IActionResult> GetAll()
     {
         await _teacherInputPort.GetAllAsync();
