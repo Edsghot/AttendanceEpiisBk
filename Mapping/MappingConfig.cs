@@ -18,5 +18,7 @@ public class MappingConfig
         TypeAdapterConfig<EventEntity, EventDto>.NewConfig();
         TypeAdapterConfig<StudentEntity, StudentDto>.NewConfig();
         TypeAdapterConfig<AttendanceEntity, AttendanceDto>.NewConfig();
+        TypeAdapterConfig<ParticipantDto, StudentDto>.NewConfig();
+        TypeAdapterConfig<ParticipantDto, TeacherDto>.NewConfig();
     }
 }

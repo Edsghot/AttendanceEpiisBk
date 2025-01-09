@@ -33,6 +33,14 @@ public class TeacherController : ControllerBase
 
         return Ok(response);
     }
+    
+    [HttpGet("ParticipantGetByDni/{dni}")]
+    public async Task<IActionResult> ParticipantGetByDni([FromRoute] string dni)
+    {
+        await _teacherInputPort.ParticipantGetByDni(dni);
+        var response = _teacherOutPort.GetResponse;
+        return Ok(response);
+    }
 
     // GET api/<ResearchController>/5
     [HttpGet("{id}")]

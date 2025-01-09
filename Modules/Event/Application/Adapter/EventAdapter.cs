@@ -68,7 +68,8 @@ public class EventAdapter : IEventInputPort
             FirstName = p.Teacher?.FirstName ?? p.Student?.FirstName,
             LastName = p.Teacher?.LastName ?? p.Student?.LastName,
             Role = p.TeacherId != null ? 0 : 1,
-            IsPresent = p.IsPresent
+            IsPresent = p.IsPresent,
+            Date = p.Date,
         });
 
         _eventOutPort.GetParticipants(participant);

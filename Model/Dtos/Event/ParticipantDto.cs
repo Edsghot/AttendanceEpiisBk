@@ -6,4 +6,5 @@ public record ParticipantDto
     public string LastName { get; set; } = string.Empty;
     public int Role { get; set; }
     public bool IsPresent { get; set; }
+    public DateTime Date { get; set; }
 }
