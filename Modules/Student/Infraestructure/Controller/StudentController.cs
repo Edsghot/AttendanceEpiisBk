@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using AttendanceEpiisBk.Modules.Event.Application.Port;
+using AttendanceEpiisBk.Modules.Student.Application.Port;
 
 namespace AttendanceEpiisBk.Modules.Student.Infraestructure.Controller;
 
@@ -7,20 +7,20 @@ namespace AttendanceEpiisBk.Modules.Student.Infraestructure.Controller;
 [ApiController]
 public class StudentController : ControllerBase
 {
-    private readonly IEventInputPort _eventInputPort;
-    private readonly IEventOutPort _eventOutPort;
+    private readonly IStudentInputPort _studentInputPort;
+    private readonly IStudentOutPort _studentOutPort;
 
-    public StudentController(IEventInputPort eventInputPort, IEventOutPort eventOutPort)
+    public StudentController(IStudentInputPort studentInputPort, IStudentOutPort studentOutPort)
     {
-        _eventInputPort = eventInputPort;
-        _eventOutPort = eventOutPort;
+        _studentInputPort = studentInputPort;
+        _studentOutPort = studentOutPort;
     }
 
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
-        await _eventInputPort.GetAllAsync();
-        var response = _eventOutPort.GetResponse;
+        await _studentInputPort.GetAllAsync();
+        var response = _studentOutPort.GetResponse;
 
         return Ok(response);
     }
@@ -28,8 +28,8 @@ public class StudentController : ControllerBase
     [HttpGet("GetById/{id:int}")]
     public async Task<IActionResult> GetById([FromRoute] int id)
     {
-        await _eventInputPort.GetById(id);
-        var response = _eventOutPort.GetResponse;
+        await _studentInputPort.GetById(id);
+        var response = _studentOutPort.GetResponse;
 
         return Ok(response);
     }
