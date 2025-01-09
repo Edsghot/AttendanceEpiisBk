@@ -4,21 +4,19 @@ using AttendanceEpiisBk.Modules.Teacher.Application.Port;
 using AttendanceEpiisBk.Modules.Teacher.Domain.IRepository;
 using AttendanceEpiisBk.Modules.Teacher.Infraestructure.Presenter;
 using AttendanceEpiisBk.Modules.Teacher.Infraestructure.Repository;
-using AttendanceEpiisBk.Modules.User.Application.Adapter;
-using AttendanceEpiisBk.Modules.User.Application.Port;
-using AttendanceEpiisBk.Modules.User.Domain.IRepository;
-using AttendanceEpiisBk.Modules.User.Infraestructure.Presenter;
-using AttendanceEpiisBk.Modules.User.Infraestructure.Repository;
-using AutoMapper;
 using Mapster;
 using Microsoft.EntityFrameworkCore;
 using AttendanceEpiisBk.Mapping;
-using AttendanceEpiisBk.Modules.Research.Application.Adapter;
-using AttendanceEpiisBk.Modules.Research.Application.Port;
-using AttendanceEpiisBk.Modules.Research.Domain.IRepository;
-using AttendanceEpiisBk.Modules.Research.Infraestructure.Presenter;
-using
-    AttendanceEpiisBk.Modules.Research.Infraestructure.Repository; // Asegúrate de incluir el espacio de nombres de AutoMapper
+using AttendanceEpiisBk.Modules.Event.Application.Adapter;
+using AttendanceEpiisBk.Modules.Event.Application.Port;
+using AttendanceEpiisBk.Modules.Event.Domain.IRepository;
+using AttendanceEpiisBk.Modules.Event.Infraestructure.Presenter;
+using AttendanceEpiisBk.Modules.Event.Infraestructure.Repository;
+using AttendanceEpiisBk.Modules.Student.Application.Adapter;
+using AttendanceEpiisBk.Modules.Student.Application.Port;
+using AttendanceEpiisBk.Modules.Student.Domain.IRepository;
+using AttendanceEpiisBk.Modules.Student.Infraestructure.Presenter;
+using AttendanceEpiisBk.Modules.Student.Infraestructure.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,17 +30,22 @@ builder.Services.AddDbContext<MySqlContext>();
 builder.Services.AddMapster();
 MappingConfig.RegisterMappings();
 
-builder.Services.AddScoped<IUserInputPort, UserAdapter>();
-builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<IUserOutPort, UserPresenter>();
 
 builder.Services.AddScoped<ITeacherInputPort, TeacherAdapter>();
 builder.Services.AddScoped<ITeacherRepository, TeacherRepository>();
 builder.Services.AddScoped<ITeacherOutPort, TeacherPresenter>();
 
-builder.Services.AddScoped<IResearchInputPort, ResearchAdapter>();
-builder.Services.AddScoped<IResearchRepository, ResearchRepository>();
-builder.Services.AddScoped<IResearchOutPort, ResearchPresenter>();
+builder.Services.AddScoped<IStudentInputPort, StudentAdapter>();
+builder.Services.AddScoped<IStudentRepository, StudentRepository>();
+builder.Services.AddScoped<IStudentOutPort, StudentPresenter>();
+
+builder.Services.AddScoped<IEventInputPort, EventAdapter>();
+builder.Services.AddScoped<IEventRepository, EventRepository>();
+builder.Services.AddScoped<IEventOutPort, EventPresenter>();
+
+
+
+
 
 
 // Configuración de CORS para permitir cualquier origen

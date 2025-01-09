@@ -1,4 +1,6 @@
-﻿namespace AttendanceEpiisBk.Model.Dtos.Teacher;
+﻿using AttendanceEpiisBk.Model.Dtos.Attedance;
+
+namespace AttendanceEpiisBk.Model.Dtos.Teacher;
 
 public record TeacherDto
 {
@@ -17,7 +19,5 @@ public record TeacherDto
     public string? LinkedIn { get; set; }
     public string Description { get; set; } = string.Empty;
     public string Position { get; set; } = string.Empty;
-    public List<WorkExperienceDto> WorkExperiences { get; set; } = new();
-    public List<TeachingExperienceDto> TeachingExperiences { get; set; } = new();
-    public List<ThesisAdvisingExperienceDto> ThesisAdvisingExperiences { get; set; } = new();
+    public List<AttendanceDto> Attendances { get; set; } = default!;
 }

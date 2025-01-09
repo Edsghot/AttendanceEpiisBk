@@ -1,8 +1,10 @@
-﻿namespace AttendanceEpiisBk.Modules.Teacher.Domain.Entity;
+﻿using AttendanceEpiisBk.Model.Dtos.Attedance;
 
-public record TeacherEntity
+namespace AttendanceEpiisBk.Model.Dtos.Student;
+
+public record StudentDto
 {
-    public int IdTeacher { get; set; }
+    public int IdStudent { get; set; }
     public string FirstName { get; set; } = string.Empty;
     public string LastName { get; set; } = string.Empty;
     public string Mail { get; set; } = string.Empty;
@@ -11,5 +13,7 @@ public record TeacherEntity
     public bool Gender { get; set; }
     public DateTime BirthDate { get; set; }
     public string Dni { get; set; } = string.Empty;
-    public ICollection<AttendanceEntity> Attendances { get; set; }
+
+    public ICollection<AttendanceDto> Attendances { get; set; } = new List<AttendanceDto>();
+
 }

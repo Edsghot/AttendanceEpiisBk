@@ -21,12 +21,7 @@ public class TeacherAdapter : ITeacherInputPort
     public async Task GetById(int id)
     {
         var teachers = await _teacherRepository.GetAsync<TeacherEntity>(
-            x => x.IdTeacher == id,
-            query => query
-                .Include(t => t.TeachingExperiences)
-                .Include(t => t.WorkExperiences)
-                .Include(t => t.ThesisAdvisingExperiences).AsNoTracking()
-        );
+            x => x.IdTeacher == id);
         if (teachers == null)
         {
             _teacherOutPort.NotFound("No teacher found.");
@@ -39,11 +34,7 @@ public class TeacherAdapter : ITeacherInputPort
 
     public async Task GetAllAsync()
     {
-        var teachers = await _teacherRepository.GetAllAsync<TeacherEntity>(query => query
-                                                                                           .Include(t => t.TeachingExperiences)
-                                                                                           .Include(t => t.WorkExperiences)
-                                                                                           .Include(t => t.ThesisAdvisingExperiences).AsNoTracking()
-                                                                                   );
+        var teachers = await _teacherRepository.GetAllAsync<TeacherEntity>( );
 
         var teacherEntities = teachers.ToList();
         if (!teacherEntities.Any())

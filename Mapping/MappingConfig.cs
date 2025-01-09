@@ -1,5 +1,10 @@
-﻿using Mapster;
+﻿using AttendanceEpiisBk.Model.Dtos.Attedance;
+using AttendanceEpiisBk.Model.Dtos.Event;
+using AttendanceEpiisBk.Model.Dtos.Student;
+using Mapster;
 using AttendanceEpiisBk.Model.Dtos.Teacher;
+using AttendanceEpiisBk.Modules.Event.Domain.Entity;
+using AttendanceEpiisBk.Modules.Student.Domain.Entity;
 using AttendanceEpiisBk.Modules.Teacher.Domain.Entity;
 
 namespace AttendanceEpiisBk.Mapping;
@@ -9,8 +14,8 @@ public class MappingConfig
     public static void RegisterMappings()
     {
         TypeAdapterConfig<TeacherEntity, TeacherDto>.NewConfig();
-        TypeAdapterConfig<WorkExperienceEntity, WorkExperienceDto>.NewConfig();
-        TypeAdapterConfig<TeachingExperienceEntity, TeachingExperienceDto>.NewConfig();
-        TypeAdapterConfig<ThesisAdvisingExperienceEntity, ThesisAdvisingExperienceDto>.NewConfig();
+        TypeAdapterConfig<EventEntity, EventDto>.NewConfig();
+        TypeAdapterConfig<StudentEntity, StudentDto>.NewConfig();
+        TypeAdapterConfig<AttendanceEntity, AttendanceDto>.NewConfig();
     }
 }

@@ -1,0 +1,19 @@
+﻿using AttendanceEpiisBk.Modules.Event.Domain.Entity;
+using AttendanceEpiisBk.Modules.Student.Domain.Entity;
+
+namespace AttendanceEpiisBk.Modules.Teacher.Domain.Entity;
+
+public record AttendanceEntity
+{
+    public int Id { get; set; }
+    public DateTime Date { get; set; }
+    public bool IsPresent { get; set; }
+    public int EventId { get; set; }
+    public int StudentId { get; set; }
+    
+    public int TeacherId { get; set; }
+    
+    public TeacherEntity Teacher { get; set; }
+    public StudentEntity Student { get; set; }
+    public EventEntity Event { get; set; } 
+}

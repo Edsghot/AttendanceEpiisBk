@@ -36,41 +36,12 @@ public class TeacherEntityConfiguration : IEntityTypeConfiguration<TeacherEntity
 
         builder.Property(t => t.BirthDate)
             .IsRequired();
-
-        builder.Property(t => t.RegistrationCode)
-            .HasMaxLength(100)
+        builder.Property(t => t.Dni)
             .IsRequired();
-
-        builder.Property(t => t.Description)
-            .HasMaxLength(900);
-
-        builder.Property(t => t.Image)
-            .HasMaxLength(500);
-
-        builder.Property(t => t.Facebook)
-            .HasMaxLength(200);
-
-        builder.Property(t => t.Instagram)
-            .HasMaxLength(200);
-
-        builder.Property(t => t.LinkedIn)
-            .HasMaxLength(200);
-
-        builder.Property(t => t.Position);
-
-        builder.HasMany(t => t.WorkExperiences)
-            .WithOne(w => w.Teacher)
-            .HasForeignKey(w => w.TeacherId)
+        builder.HasMany(t => t.Attendances)
+            .WithOne(a => a.Teacher)
+            .HasForeignKey(a => a.TeacherId)
             .OnDelete(DeleteBehavior.Cascade);
 
-        builder.HasMany(t => t.TeachingExperiences)
-            .WithOne(te => te.Teacher)
-            .HasForeignKey(te => te.TeacherId)
-            .OnDelete(DeleteBehavior.Cascade);
-
-        builder.HasMany(t => t.ThesisAdvisingExperiences)
-            .WithOne(tae => tae.Teacher)
-            .HasForeignKey(tae => tae.TeacherId)
-            .OnDelete(DeleteBehavior.Cascade);
     }
 }
