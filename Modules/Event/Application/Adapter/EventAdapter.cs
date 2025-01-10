@@ -61,45 +61,58 @@ public class EventAdapter : IEventInputPort
         _eventOutPort.EventAdded();
     }
     
-    public async Task GetParticipantsAsync(int eventId)
+   public async Task GetParticipantsAsync(int eventId)
+{
+    var participants = await _eventRepository.GetAllAsync<AttendanceEntity>(
+        x => x.Where(s => s.EventId == eventId)
+            .Include(s => s.Teacher)
+            .Include(s => s.Student)
+            .Include(s => s.Guest)
+    );
+
+    var participantDtos = new List<ParticipantDto>();
+
+    foreach (var participant in participants)
     {
-        var participants = await _eventRepository.GetAllAsync<AttendanceEntity>(
-            x => x.Where(s => s.EventId == eventId )
-                .Include(s => s.Teacher)
-                .Include(s => s.Student)
-        );
-
-        var participantDtos = new List<ParticipantDto>();
-
-        foreach (var participant in participants)
+        if (participant.Teacher != null)
         {
-            if (participant.Teacher != null)
+            participantDtos.Add(new ParticipantDto
             {
-                participantDtos.Add(new ParticipantDto
-                {
-                    FirstName = participant.Teacher.FirstName,
-                    LastName = participant.Teacher.LastName,
-                    Role = 0,
-                    IsPresent = participant.IsPresent,
-                    Date = participant.Date,
-                });
-            }
-
-            if (participant.Student != null)
-            {
-                participantDtos.Add(new ParticipantDto
-                {
-                    FirstName = participant.Student.FirstName,
-                    LastName = participant.Student.LastName,
-                    Role = 1,
-                    IsPresent = participant.IsPresent,
-                    Date = participant.Date,
-                });
-            }
+                FirstName = participant.Teacher.FirstName,
+                LastName = participant.Teacher.LastName,
+                Role = 0,
+                IsPresent = participant.IsPresent,
+                Date = participant.Date,
+            });
         }
 
-        _eventOutPort.GetParticipants(participantDtos);
+        if (participant.Student != null)
+        {
+            participantDtos.Add(new ParticipantDto
+            {
+                FirstName = participant.Student.FirstName,
+                LastName = participant.Student.LastName,
+                Role = 1,
+                IsPresent = participant.IsPresent,
+                Date = participant.Date,
+            });
+        }
+
+        if (participant.Guest != null)
+        {
+            participantDtos.Add(new ParticipantDto
+            {
+                FirstName = participant.Guest.FirstName,
+                LastName = participant.Guest.LastName,
+                Role = 2,
+                IsPresent = participant.IsPresent,
+                Date = participant.Date,
+            });
+        }
     }
+
+    _eventOutPort.GetParticipants(participantDtos);
+}
     
       public async Task CreateGuest(GuestDto data)
         {

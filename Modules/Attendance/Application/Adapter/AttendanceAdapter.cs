@@ -107,6 +107,7 @@ public class AttendanceAdapter : IAttendanceInputPort
             await _attendanceRepository.SaveChangesAsync();
             
             _attendanceOutPort.Success("El estudiante "+student.FirstName + " " + student.LastName + " ha sido registrado");
+            return;
         }
         
         var guest = await _attendanceRepository.GetAsync<GuestEntity>(x => x.IdGuest == data.IdParticipant);
