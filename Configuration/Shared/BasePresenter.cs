@@ -22,7 +22,7 @@ public class BasePresenter<T> : IBasePresenter<T>
         {
             Success = true,
             Message = message,
-            Data = default
+            Data = default(T) is IEnumerable<T> ? (T)(object)new List<T>() : default(T)
         };
     }
 
