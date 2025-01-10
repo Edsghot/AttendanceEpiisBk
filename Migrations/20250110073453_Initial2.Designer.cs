@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AttendanceEpiisBk.Migrations
 {
     [DbContext(typeof(MySqlContext))]
-    [Migration("20250110053244_Initial2")]
+    [Migration("20250110073453_Initial2")]
     partial class Initial2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

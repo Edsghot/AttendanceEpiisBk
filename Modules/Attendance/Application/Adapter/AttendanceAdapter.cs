@@ -91,14 +91,14 @@ public class AttendanceAdapter : IAttendanceInputPort
             var student = await _attendanceRepository.GetAsync<StudentEntity>(x => x.IdStudent == data.IdParticipant);
             if(student == null)
             {
-                _attendanceOutPort.Error("Debe registrar al estudiante para agregarlo");
+                _attendanceOutPort.Success("Debe registrar al estudiante para agregarlo");
                 return;
             }
 
             var participanS = await _attendanceRepository.GetAsync<AttendanceEntity>(x => x.StudentId == student.IdStudent && x.EventId == data.EventId);
             if(participanS != null)
             {
-                _attendanceOutPort.Error("El estudiante ya se encuentra registrado en evento seleccionado");
+                _attendanceOutPort.Success("El estudiante ya se encuentra registrado en evento seleccionado");
                 return;
             }
 
@@ -113,14 +113,14 @@ public class AttendanceAdapter : IAttendanceInputPort
         var guest = await _attendanceRepository.GetAsync<GuestEntity>(x => x.IdGuest == data.IdParticipant);
         if (guest == null)
         {
-            _attendanceOutPort.Error("Debe registrar al invitado para agregarlo");
+            _attendanceOutPort.Success("Debe registrar al invitado para agregarlo");
             return;
         }
 
         var participantG = await _attendanceRepository.GetAsync<AttendanceEntity>(x => x.GuestId == guest.IdGuest && x.EventId == data.EventId);
         if (participantG != null)
         {
-            _attendanceOutPort.Error("El invitado ya se encuentra registrado en el evento seleccionado");
+            _attendanceOutPort.Success("El invitado ya se encuentra registrado en el evento seleccionado");
             return;
         }
 
@@ -138,15 +138,14 @@ public class AttendanceAdapter : IAttendanceInputPort
     var student = await _attendanceRepository.GetAsync<StudentEntity>(x => x.Dni == attendanceDto.Dni);
     var guest = await _attendanceRepository.GetAsync<GuestEntity>(x => x.Dni == attendanceDto.Dni);
 
-    AttendanceEntity attendance = new AttendanceEntity()
-;
+    AttendanceEntity attendance = new AttendanceEntity();
 
     if (teacher != null)
     {
         attendance = await _attendanceRepository.GetAsync<AttendanceEntity>(x => x.TeacherId == teacher.IdTeacher);
         if ( attendance != null && attendance.IsPresent)
         {
-            _attendanceOutPort.Error( "El docente ya se encuentra registrado");
+            _attendanceOutPort.Success( "El docente ya se encuentra registrado");
             return;
         }
     }
@@ -155,7 +154,7 @@ public class AttendanceAdapter : IAttendanceInputPort
         attendance = await _attendanceRepository.GetAsync<AttendanceEntity>(x => x.StudentId == student.IdStudent);
         if (attendance != null && attendance.IsPresent)
         {
-            _attendanceOutPort.Error( "El estudiante ya se encuentra registrado");
+            _attendanceOutPort.Success( "El estudiante ya se encuentra registrado");
             return;
         }
     }
@@ -186,7 +185,6 @@ public class AttendanceAdapter : IAttendanceInputPort
         resTeacher.Role = 0;
         attendance.TeacherId = teacher.IdTeacher;
         await _attendanceRepository.UpdateAsync(attendance);
-        await _attendanceRepository.SaveChangesAsync();
         _attendanceOutPort.TakeAttendance(resTeacher);
     }
     else if (student != null)
@@ -195,7 +193,6 @@ public class AttendanceAdapter : IAttendanceInputPort
         resStudent.Role = 1;
         attendance.StudentId = student.IdStudent;
         await _attendanceRepository.UpdateAsync(attendance);
-        await _attendanceRepository.SaveChangesAsync();
         _attendanceOutPort.TakeAttendance(resStudent);
     }
     else if (guest != null)
@@ -204,7 +201,6 @@ public class AttendanceAdapter : IAttendanceInputPort
         resGuest.Role = 2;
         attendance.GuestId = guest.IdGuest;
         await _attendanceRepository.UpdateAsync(attendance);
-        await _attendanceRepository.SaveChangesAsync();
         _attendanceOutPort.TakeAttendance(resGuest);
     }
 }
