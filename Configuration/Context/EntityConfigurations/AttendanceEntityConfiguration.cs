@@ -31,6 +31,11 @@ public class AttendanceEntityConfiguration : IEntityTypeConfiguration<Attendance
                 .WithMany(e => e.Attendances)
                 .HasForeignKey(a => a.EventId)
                 .OnDelete(DeleteBehavior.Cascade).IsRequired(false);
+            
+            builder.HasOne(a => a.Guest)
+                .WithMany(e => e.Attendances)
+                .HasForeignKey(a => a.GuestId)
+                .OnDelete(DeleteBehavior.Cascade).IsRequired(false);
         }
     
 }

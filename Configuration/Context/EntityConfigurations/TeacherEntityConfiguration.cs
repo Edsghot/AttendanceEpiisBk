@@ -23,17 +23,12 @@ public class TeacherEntityConfiguration : IEntityTypeConfiguration<TeacherEntity
             .HasMaxLength(100)
             .IsRequired(false);
 
-        builder.Property(t => t.Password)
-            .HasMaxLength(100)
-            .IsRequired(false);
-
         builder.Property(t => t.Phone)
             .HasMaxLength(100)
             .IsRequired(false);
 
         builder.Property(t => t.Gender);
 
-        builder.Property(t => t.BirthDate);
         builder.Property(t => t.Dni)
             .IsRequired(false);
         builder.HasMany(t => t.Attendances)

@@ -14,6 +14,7 @@ public record EventEntity
     public bool IsPrivate { get; set; }
     public string Description { get; set; } = string.Empty;
     public int EventTypeId { get; set; }
+    public bool TodoTeacher { get; set; }
 
     public ICollection<AttendanceEntity> Attendances { get; set; } = new List<AttendanceEntity>();
 }

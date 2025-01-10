@@ -13,8 +13,10 @@ public record AttendanceEntity
     public int? StudentId { get; set; }
     
     public int? TeacherId { get; set; }
+    public int? GuestId { get; set; }
     
     public TeacherEntity Teacher { get; set; }
     public StudentEntity Student { get; set; }
     public EventEntity Event { get; set; } 
+    public GuestEntity Guest { get; set; } 
 }

@@ -10,8 +10,6 @@ public class TeacherDtoValidator : AbstractValidator<TeacherDto>
         RuleFor(x => x.LastName).NotEmpty().WithMessage("Last name is required.");
         RuleFor(x => x.Mail).NotEmpty().EmailAddress().WithMessage("Valid email is required.");
         RuleFor(x => x.Phone).NotEmpty().WithMessage("Phone number is required.");
-        RuleFor(x => x.Password).NotEmpty().WithMessage("Password is required.");
         RuleFor(x => x.Dni).NotEmpty().WithMessage("DNI is required.");
-        RuleFor(x => x.BirthDate).NotEmpty().WithMessage("Birth date is required.");
     }
 }

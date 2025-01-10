@@ -78,6 +78,13 @@ public class TeacherAdapter : ITeacherInputPort
     
     public async Task CreateTeacher(TeacherDto teacherDto)
     {
+        var existingTeacher = await _teacherRepository.GetAsync<TeacherEntity>(x => x.Dni == teacherDto.Dni);
+        if (existingTeacher != null)
+        {
+            _teacherOutPort.Error("A teacher with the same DNI already exists.");
+            return;
+        }
+
         var result = await _validator.ValidateAsync(teacherDto);
         if (!result.IsValid)
         {

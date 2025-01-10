@@ -52,4 +52,19 @@ public class StudentAdapter : IStudentInputPort
 
         _studentOutPort.GetAllAsync(studentDtos);
     }
+
+  public async Task CreateStudent(StudentDto data)
+{
+    var existingStudent = await _studentRepository.GetAsync<StudentEntity>(x => x.Dni == data.Dni);
+    if (existingStudent != null)
+    {
+        _studentOutPort.Error("El estudiante ya esta registrado");
+        return;
+    }
+
+    var studentEntity = data.Adapt<StudentEntity>();
+    await _studentRepository.AddAsync(studentEntity);
+    await _studentRepository.SaveChangesAsync();
+    _studentOutPort.Success(studentEntity, "Estudiante creado correctamente");
+}
 }

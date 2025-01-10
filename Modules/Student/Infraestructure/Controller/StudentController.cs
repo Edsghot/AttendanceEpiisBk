@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AttendanceEpiisBk.Model.Dtos.Student;
+using Microsoft.AspNetCore.Mvc;
 using AttendanceEpiisBk.Modules.Student.Application.Port;
 
 namespace AttendanceEpiisBk.Modules.Student.Infraestructure.Controller;
@@ -31,6 +32,14 @@ public class StudentController : ControllerBase
         await _studentInputPort.GetById(id);
         var response = _studentOutPort.GetResponse;
 
+        return Ok(response);
+    }
+    
+    [HttpPost("CreateStudent")]
+    public async Task<IActionResult> CreateStudent([FromBody] StudentDto teacherDto)
+    {
+        await _studentInputPort.CreateStudent(teacherDto);
+        var response = _studentOutPort.GetResponse;
         return Ok(response);
     }
 

@@ -27,13 +27,7 @@ public class StudentEntityConfiguration : IEntityTypeConfiguration<StudentEntity
             .HasMaxLength(100)
             .IsRequired(false);
 
-        builder.Property(s => s.Password)
-            .HasMaxLength(100)
-            .IsRequired(false);
-
         builder.Property(s => s.Gender);
-
-        builder.Property(s => s.BirthDate);
 
         builder.Property(s => s.Dni)
             .IsRequired();
