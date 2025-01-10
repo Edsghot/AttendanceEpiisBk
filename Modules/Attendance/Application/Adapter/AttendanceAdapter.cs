@@ -166,13 +166,14 @@ public class AttendanceAdapter : IAttendanceInputPort
             _attendanceOutPort.Success(new object(), "El invitado ya se encuentra registrado");
             return;
         }
+        if (attendance == null)
+        {
+            _attendanceOutPort.Error("No se encontró el participante, registrelo");
+            return;
+        }
     }
 
-    if (attendance == null)
-    {
-        _attendanceOutPort.Error("No se encontró el participante, registrelo");
-        return;
-    }
+    
 
     attendance.Date = DateTime.Now;
     attendance.IsPresent = true;
