@@ -81,7 +81,9 @@ public class TeacherAdapter : ITeacherInputPort
         var result = await _validator.ValidateAsync(teacherDto);
         if (!result.IsValid)
         {
-            _teacherOutPort.Error(result.Errors.ToString());
+            var errorMessages = result.Errors.Select(e => e.ErrorMessage).ToList();
+            var serializedErrors = System.Text.Json.JsonSerializer.Serialize(errorMessages);
+            _teacherOutPort.Error(serializedErrors);
             return;
         }
 

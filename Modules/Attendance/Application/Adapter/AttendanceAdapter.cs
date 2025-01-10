@@ -118,7 +118,7 @@ public class AttendanceAdapter : IAttendanceInputPort
             _attendanceOutPort.NotFound("No se registro este participante");
             return;
         }
-        var attendance = await _attendanceRepository.GetAsync<AttendanceEntity>(x => x.TeacherId == teacher.IdTeacher && x.EventId == attendanceDto.EventId);
+        var attendance = await _attendanceRepository.GetAsync<AttendanceEntity>(x => x.TeacherId == teacher.IdTeacher );
 
         if (teacher != null && attendance.IsPresent)
         {
@@ -127,7 +127,7 @@ public class AttendanceAdapter : IAttendanceInputPort
         }
         if (teacher == null)
         {
-            attendance = await _attendanceRepository.GetAsync<AttendanceEntity>(x => x.StudentId == student.IdStudent && x.EventId == attendanceDto.EventId);
+            attendance = await _attendanceRepository.GetAsync<AttendanceEntity>(x => x.StudentId == student.IdStudent );
  
             if (attendance.IsPresent)
             {
