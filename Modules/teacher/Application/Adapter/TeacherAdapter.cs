@@ -70,5 +70,13 @@ public class TeacherAdapter : ITeacherInputPort
         res.Role = 0;
         _teacherOutPort.ParticipantGetByDni(res);
     }
+    
+    public async Task CreateTeacher(TeacherDto teacherDto)
+    {
+        var teacherEntity = teacherDto.Adapt<TeacherEntity>();
+        await _teacherRepository.AddAsync(teacherEntity);
+        await _teacherRepository.SaveChangesAsync();
+        _teacherOutPort.Success(teacherEntity, "Teacher created successfully.");
+    }
 }
         

@@ -118,20 +118,20 @@ public class AttendanceAdapter : IAttendanceInputPort
             _attendanceOutPort.NotFound("No se registro este participante");
             return;
         }
-        var attendance = await _attendanceRepository.GetAsync<AttendanceEntity>(x => x.TeacherId == teacher.IdTeacher);
+        var attendance = await _attendanceRepository.GetAsync<AttendanceEntity>(x => x.TeacherId == teacher.IdTeacher && x.EventId == attendanceDto.EventId);
 
         if (teacher != null && attendance.IsPresent)
         {
-            _attendanceOutPort.Success("El docente ya se encuentra registrado");
+            _attendanceOutPort.Success("El docente ya se encuentra registrado en este evento");
             return;            
         }
         if (teacher == null)
         {
-            attendance = await _attendanceRepository.GetAsync<AttendanceEntity>(x => x.StudentId == student.IdStudent);
+            attendance = await _attendanceRepository.GetAsync<AttendanceEntity>(x => x.StudentId == student.IdStudent && x.EventId == attendanceDto.EventId);
  
             if (attendance.IsPresent)
             {
-                _attendanceOutPort.Success("El estudiante ya se encuentra registrado");
+                _attendanceOutPort.Success("El estudiante ya se encuentra registrado en este evento");
                 return;            
             }
             

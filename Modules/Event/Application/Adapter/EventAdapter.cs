@@ -63,7 +63,7 @@ public class EventAdapter : IEventInputPort
     public async Task GetParticipantsAsync(int eventId)
     {
         var participants = await _eventRepository.GetAllAsync<AttendanceEntity>(
-            x => x.Where(s => s.EventId == eventId)
+            x => x.Where(s => s.EventId == eventId )
                 .Include(s => s.Teacher)
                 .Include(s => s.Student)
         );

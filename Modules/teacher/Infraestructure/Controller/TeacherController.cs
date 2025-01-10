@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AttendanceEpiisBk.Model.Dtos.Teacher;
+using Microsoft.AspNetCore.Mvc;
 using AttendanceEpiisBk.Modules.Teacher.Application.Port;
 
 namespace AttendanceEpiisBk.Modules.Teacher.Infraestructure.Controller;
@@ -49,10 +50,12 @@ public class TeacherController : ControllerBase
         return "value";
     }
 
-    // POST api/<ResearchController>
-    [HttpPost]
-    public void Post([FromBody] string value)
+    [HttpPost("CreateTeacher")]
+    public async Task<IActionResult> CreateTeacher([FromBody] TeacherDto teacherDto)
     {
+        await _teacherInputPort.CreateTeacher(teacherDto);
+        var response = _teacherOutPort.GetResponse;
+        return Ok(response);
     }
 
     // PUT api/<ResearchController>/5
