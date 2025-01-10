@@ -1,5 +1,6 @@
 ﻿using AttendanceEpiisBk.Configuration.Shared;
 using AttendanceEpiisBk.Model.Dtos.Event;
+using AttendanceEpiisBk.Model.Dtos.Participant;
 using AttendanceEpiisBk.Model.Dtos.Teacher;
 using AttendanceEpiisBk.Modules.Teacher.Application.Port;
 
@@ -16,7 +17,7 @@ public class TeacherPresenter : BasePresenter<object>, ITeacherOutPort
     {
         Success(data, "Teacher data");
     }
-    public void ParticipantGetByDni(IEnumerable<ParticipantDto> data){
+    public void ParticipantGetByDni(IEnumerable<ParticipantDataDto> data){
         Success(data);
     }
 }

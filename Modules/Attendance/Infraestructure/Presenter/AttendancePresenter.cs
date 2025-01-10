@@ -1,6 +1,7 @@
 ﻿using AttendanceEpiisBk.Configuration.Shared;
 using AttendanceEpiisBk.Model.Dtos.Attedance;
 using AttendanceEpiisBk.Model.Dtos.Event;
+using AttendanceEpiisBk.Model.Dtos.Participant;
 using AttendanceEpiisBk.Model.Dtos.Teacher;
 using AttendanceEpiisBk.Modules.Attendance.Application.Port;
 using AttendanceEpiisBk.Modules.Event.Application.Port;
@@ -15,6 +16,11 @@ public class AttendancePresenter : BasePresenter<object>, IAttendanceOutPort
     }
 
     public void GetById(AttendanceDto data)
+    {
+        Success(data);
+    }
+
+    public void TakeAttendance(ParticipantDataDto data)
     {
         Success(data);
     }

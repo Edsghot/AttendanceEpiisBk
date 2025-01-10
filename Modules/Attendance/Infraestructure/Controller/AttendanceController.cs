@@ -51,6 +51,15 @@ public class AttendanceController : ControllerBase
             await _attendanceInputPort.AddParticipant(participantDto);
             return Ok(_attendanceOutPort.GetResponse); 
     }
+    
+    
+    [HttpPost("TakeAttendance")]
+    public async Task<IActionResult> TakeAttendance([FromBody] InsertAttendanceDto participantDto)
+    {
+       
+        await _attendanceInputPort.TakeAttendance(participantDto);
+        return Ok(_attendanceOutPort.GetResponse); 
+    }
 
     // PUT api/<ResearchController>/5
     [HttpPut("{id}")]

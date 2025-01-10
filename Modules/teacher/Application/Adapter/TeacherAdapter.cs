@@ -1,4 +1,5 @@
 ﻿using AttendanceEpiisBk.Model.Dtos.Event;
+using AttendanceEpiisBk.Model.Dtos.Participant;
 using Mapster;
 using Microsoft.EntityFrameworkCore;
 using AttendanceEpiisBk.Model.Dtos.Teacher;
@@ -58,15 +59,16 @@ public class TeacherAdapter : ITeacherInputPort
         {
             var students = await _teacherRepository.GetAllAsync<StudentEntity>(x => x.Where(e => e.Dni.Contains(dni)));
 
-            var response = students.Adapt<List<ParticipantDto>>();
+            var response = students.Adapt<List<ParticipantDataDto>>();
             response.ForEach(x => x.Role =1);
             _teacherOutPort.ParticipantGetByDni(response);
             return;
+            
         }
         
-        
-        var res = teachers.Adapt<List<ParticipantDto>>();
+        var res = teachers.Adapt<List<ParticipantDataDto>>();
         res.ForEach(x => x.Role =0);
         _teacherOutPort.ParticipantGetByDni(res);
     }
 }
+        

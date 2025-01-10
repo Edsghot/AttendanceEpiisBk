@@ -1,5 +1,6 @@
 ﻿using AttendanceEpiisBk.Model.Dtos.Attedance;
 using AttendanceEpiisBk.Model.Dtos.Event;
+using AttendanceEpiisBk.Model.Dtos.Participant;
 using Mapster;
 using Microsoft.EntityFrameworkCore;
 using AttendanceEpiisBk.Model.Dtos.Teacher;
@@ -13,43 +14,43 @@ namespace AttendanceEpiisBk.Modules.Attendance.Application.Adapter;
 
 public class AttendanceAdapter : IAttendanceInputPort
 {
-    private readonly IAttendanceOutPort _eventOutPort;
-    private readonly IAttendanceRepository _eventRepository;
+    private readonly IAttendanceOutPort _attendanceOutPort;
+    private readonly IAttendanceRepository _attendanceRepository;
 
-    public AttendanceAdapter(IAttendanceRepository repository, IAttendanceOutPort eventOutPort)
+    public AttendanceAdapter(IAttendanceRepository repository, IAttendanceOutPort attendanceOutPort)
     {
-        _eventRepository = repository;
-        _eventOutPort = eventOutPort;
+        _attendanceRepository = repository;
+        _attendanceOutPort = attendanceOutPort;
     }
 
     public async Task GetById(int id)
     {
-        var events = await _eventRepository.GetAsync<AttendanceEntity>(
+        var attendances = await _attendanceRepository.GetAsync<AttendanceEntity>(
             x => x.IdAttendance == id);
-        if (events == null)
+        if (attendances == null)
         {
-            _eventOutPort.NotFound("No event found.");
+            _attendanceOutPort.NotFound("No attendance found.");
             return;
         }
 
-        var eventDtos = events.Adapt<AttendanceDto>();
-        _eventOutPort.GetById(eventDtos);
+        var attendanceDtos = attendances.Adapt<AttendanceDto>();
+        _attendanceOutPort.GetById(attendanceDtos);
     }
 
     public async Task GetAllAsync()
     {
-        var events = await _eventRepository.GetAllAsync<AttendanceEntity>( );
+        var attendances = await _attendanceRepository.GetAllAsync<AttendanceEntity>( );
 
-        var eventEntities = events.ToList();
-        if (!eventEntities.Any())
+        var attendanceEntities = attendances.ToList();
+        if (!attendanceEntities.Any())
         {
-            _eventOutPort.NotFound("No event found.");
+            _attendanceOutPort.NotFound("No attendance found.");
             return;
         }
 
-        var eventDtos = events.Adapt<List<AttendanceDto>>();
+        var attendanceDtos = attendances.Adapt<List<AttendanceDto>>();
 
-        _eventOutPort.GetAllAsync(eventDtos);
+        _attendanceOutPort.GetAllAsync(attendanceDtos);
     }
 
     public async Task AddParticipant(InsertParticipantDto data)
@@ -64,46 +65,80 @@ public class AttendanceAdapter : IAttendanceInputPort
         //docente
         if(data.Role  == 0)
         {
-            var teacher = await _eventRepository.GetAsync<TeacherEntity>(x => x.IdTeacher == data.IdParticipant);
+            var teacher = await _attendanceRepository.GetAsync<TeacherEntity>(x => x.IdTeacher == data.IdParticipant);
             if(teacher == null)
             {
-                _eventOutPort.Error("Debe registrar al docente para agregarlo");
+                _attendanceOutPort.Error("Debe registrar al docente para agregarlo");
                 return;
             }
 
-            var participant = await _eventRepository.GetAsync<AttendanceEntity>(x => x.TeacherId == teacher.IdTeacher);
+            var participant = await _attendanceRepository.GetAsync<AttendanceEntity>(x => x.TeacherId == teacher.IdTeacher);
             if(participant != null)
             {
-                _eventOutPort.Error("El docente ya se encuentra registrado");
+                _attendanceOutPort.Error("El docente ya se encuentra registrado");
                 return;
             }
 
             attendance.TeacherId = teacher.IdTeacher;
-            await _eventRepository.AddAsync(attendance);
-            await _eventRepository.SaveChangesAsync();
+            await _attendanceRepository.AddAsync(attendance);
+            await _attendanceRepository.SaveChangesAsync();
             
-            _eventOutPort.Success("El docente "+teacher.FirstName + " " + teacher.LastName + " ha sido registrado");
+            _attendanceOutPort.Success("El docente "+teacher.FirstName + " " + teacher.LastName + " ha sido registrado");
             return;
         }
         
-        var student = await _eventRepository.GetAsync<StudentEntity>(x => x.IdStudent == data.IdParticipant);
+        var student = await _attendanceRepository.GetAsync<StudentEntity>(x => x.IdStudent == data.IdParticipant);
         if(student == null)
         {
-            _eventOutPort.Error("Debe registrar al estudiante para agregarlo");
+            _attendanceOutPort.Error("Debe registrar al estudiante para agregarlo");
             return;
         }
 
-        var participanS = await _eventRepository.GetAsync<AttendanceEntity>(x => x.StudentId == student.IdStudent);
+        var participanS = await _attendanceRepository.GetAsync<AttendanceEntity>(x => x.StudentId == student.IdStudent);
         if(participanS != null)
         {
-            _eventOutPort.Error("El estudiante ya se encuentra registrado");
+            _attendanceOutPort.Error("El estudiante ya se encuentra registrado");
             return;
         }
 
         attendance.StudentId = student.IdStudent;
-        await _eventRepository.AddAsync(attendance);
-        await _eventRepository.SaveChangesAsync();
+        await _attendanceRepository.AddAsync(attendance);
+        await _attendanceRepository.SaveChangesAsync();
             
-        _eventOutPort.Success("El estudiante "+student.FirstName + " " + student.LastName + " ha sido registrado");
+        _attendanceOutPort.Success("El estudiante "+student.FirstName + " " + student.LastName + " ha sido registrado");
+    }
+    
+    public async Task TakeAttendance(InsertAttendanceDto attendanceDto)
+    {
+        var teacher = await _attendanceRepository.GetAsync<TeacherEntity>(x => x.Dni == attendanceDto.Dni);
+        var student = await _attendanceRepository.GetAsync<StudentEntity>(x => x.Dni == attendanceDto.Dni);
+
+        if (teacher == null && student == null)
+        {
+            _attendanceOutPort.NotFound("No se registro este participante");
+            return;
+        }
+        var attendance = await _attendanceRepository.GetAsync<AttendanceEntity>(x => x.TeacherId == teacher.IdTeacher);
+
+        if (teacher == null)
+        {
+            attendance = await _attendanceRepository.GetAsync<AttendanceEntity>(x => x.StudentId == student.IdStudent);
+
+            attendance.Date = DateTime.Now;
+            attendance.IsPresent = true;
+            await _attendanceRepository.UpdateAsync(attendance);
+            await _attendanceRepository.SaveChangesAsync();
+            var res = student.Adapt<ParticipantDataDto>();
+            res.Role = 1;
+            _attendanceOutPort.TakeAttendance(res);
+        }
+        
+        attendance.Date = DateTime.Now;
+        attendance.IsPresent = true;
+        await _attendanceRepository.UpdateAsync(attendance);
+        await _attendanceRepository.SaveChangesAsync();
+        var resTeacher = teacher.Adapt<ParticipantDataDto>();
+        resTeacher.Role = 0;
+        _attendanceOutPort.TakeAttendance(resTeacher);
     }
 }

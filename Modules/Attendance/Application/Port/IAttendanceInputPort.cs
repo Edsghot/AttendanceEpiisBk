@@ -9,4 +9,5 @@ public interface IAttendanceInputPort
     Task GetAllAsync();
     Task GetById(int id);
     Task AddParticipant(InsertParticipantDto data);
+    Task TakeAttendance(InsertAttendanceDto data);
 }
