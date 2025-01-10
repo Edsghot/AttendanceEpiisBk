@@ -9,5 +9,5 @@ public interface ITeacherOutPort : IBasePresenter<object>
 {
     void GetAllAsync(IEnumerable<TeacherDto> data);
     void GetById(TeacherDto teacher);
-    void ParticipantGetByDni(IEnumerable<ParticipantDataDto> data);
+    void ParticipantGetByDni(ParticipantDataDto data);
 }

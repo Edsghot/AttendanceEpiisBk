@@ -17,7 +17,7 @@ public class TeacherPresenter : BasePresenter<object>, ITeacherOutPort
     {
         Success(data, "Teacher data");
     }
-    public void ParticipantGetByDni(IEnumerable<ParticipantDataDto> data){
+    public void ParticipantGetByDni(ParticipantDataDto data){
         Success(data);
     }
 }

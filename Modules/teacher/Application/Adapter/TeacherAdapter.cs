@@ -53,21 +53,21 @@ public class TeacherAdapter : ITeacherInputPort
 
     public async Task ParticipantGetByDni(string dni)
     {
-        var teachers = await _teacherRepository.GetAllAsync<TeacherEntity>(x => x.Where(e => e.Dni.Contains(dni)));
+        var teachers = await _teacherRepository.GetAsync<TeacherEntity>(x => x.Dni.Equals(dni));
         
         if(teachers == null)
         {
-            var students = await _teacherRepository.GetAllAsync<StudentEntity>(x => x.Where(e => e.Dni.Contains(dni)));
+            var students = await _teacherRepository.GetAsync<StudentEntity>(e => e.Dni.Equals(dni));
 
-            var response = students.Adapt<List<ParticipantDataDto>>();
-            response.ForEach(x => x.Role =1);
+            var response = students.Adapt<ParticipantDataDto>();
+            response.Role = 1;
             _teacherOutPort.ParticipantGetByDni(response);
             return;
             
         }
         
-        var res = teachers.Adapt<List<ParticipantDataDto>>();
-        res.ForEach(x => x.Role =0);
+        var res = teachers.Adapt<ParticipantDataDto>();
+        res.Role = 0;
         _teacherOutPort.ParticipantGetByDni(res);
     }
 }
