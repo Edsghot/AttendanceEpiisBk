@@ -1,4 +1,5 @@
-﻿using AttendanceEpiisBk.Model.Dtos.Teacher;
+﻿using AttendanceEpiisBk.Model.Dtos.Guest;
+using AttendanceEpiisBk.Model.Dtos.Teacher;
 using Microsoft.AspNetCore.Mvc;
 using AttendanceEpiisBk.Modules.Teacher.Application.Port;
 
@@ -57,6 +58,8 @@ public class TeacherController : ControllerBase
         var response = _teacherOutPort.GetResponse;
         return Ok(response);
     }
+    
+    
 
     // PUT api/<ResearchController>/5
     [HttpPut("{id}")]

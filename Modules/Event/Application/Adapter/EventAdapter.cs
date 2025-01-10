@@ -1,4 +1,5 @@
 ﻿using AttendanceEpiisBk.Model.Dtos.Event;
+using AttendanceEpiisBk.Model.Dtos.Guest;
 using Mapster;
 using Microsoft.EntityFrameworkCore;
 using AttendanceEpiisBk.Model.Dtos.Teacher;
@@ -99,5 +100,20 @@ public class EventAdapter : IEventInputPort
 
         _eventOutPort.GetParticipants(participantDtos);
     }
+    
+      public async Task CreateGuest(GuestDto data)
+        {
+            var existingDto = await _eventRepository.GetAsync<GuestEntity>(x => x.Dni == data.Dni);
+            if (existingDto != null)
+            {
+                _eventOutPort.Error("Ya existe un invitado (  "+existingDto.FirstName+" ) creado con este DNI");
+                return;
+            }
+    
+            var guestEntity = existingDto.Adapt<GuestEntity>();
+            await _eventRepository.AddAsync(guestEntity);
+            await _eventRepository.SaveChangesAsync();
+            _eventOutPort.Success(guestEntity, "Teacher created successfully.");
+        }
    
 }

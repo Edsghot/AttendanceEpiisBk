@@ -1,5 +1,6 @@
 ﻿using AttendanceEpiisBk.Model.Dtos.Attedance;
 using AttendanceEpiisBk.Model.Dtos.Event;
+using AttendanceEpiisBk.Model.Dtos.Guest;
 using AttendanceEpiisBk.Model.Dtos.Student;
 using Mapster;
 using AttendanceEpiisBk.Model.Dtos.Teacher;
@@ -20,5 +21,6 @@ public class MappingConfig
         TypeAdapterConfig<AttendanceEntity, AttendanceDto>.NewConfig();
         TypeAdapterConfig<ParticipantDto, StudentDto>.NewConfig();
         TypeAdapterConfig<ParticipantDto, TeacherDto>.NewConfig();
+        TypeAdapterConfig<GuestEntity, GuestDto>.NewConfig();
     }
 }

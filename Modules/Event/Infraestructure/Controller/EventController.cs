@@ -1,4 +1,5 @@
 ﻿using AttendanceEpiisBk.Model.Dtos.Event;
+using AttendanceEpiisBk.Model.Dtos.Guest;
 using Microsoft.AspNetCore.Mvc;
 using AttendanceEpiisBk.Modules.Event.Application.Port;
 
@@ -57,6 +58,15 @@ public class EventController : ControllerBase
         await _eventInputPort.GetParticipantsAsync(eventId);
         return Ok(_eventOutPort.GetResponse);
     }
+    
+    [HttpPost("CreateGuest")]
+    public async Task<IActionResult> CreateGuest([FromBody] GuestDto data)
+    {
+        await _eventInputPort.CreateGuest(data);
+        var response = _eventOutPort.GetResponse;
+        return Ok(response);
+    }    
+
     
     // PUT api/<ResearchController>/5
     [HttpPut("{id}")]

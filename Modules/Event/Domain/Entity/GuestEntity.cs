@@ -9,5 +9,7 @@ public record GuestEntity
     public string LastName { get; set; }
     public string Mail { get; set; }
     
+    public string Dni { get; set; }
+    
     public ICollection<AttendanceEntity> Attendances { get; set; } = new List<AttendanceEntity>();    
 }

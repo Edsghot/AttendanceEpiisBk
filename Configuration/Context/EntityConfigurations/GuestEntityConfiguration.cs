@@ -23,6 +23,10 @@ public class GuestEntityConfiguration : IEntityTypeConfiguration<GuestEntity>
         builder.Property(g => g.Mail)
             .IsRequired()
             .HasMaxLength(300);
+        
+        builder.Property(g => g.Dni)
+            .IsRequired()
+            .HasMaxLength(10);
 
         builder.HasMany(g => g.Attendances)
             .WithOne()

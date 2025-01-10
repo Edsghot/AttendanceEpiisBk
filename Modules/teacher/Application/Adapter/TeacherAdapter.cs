@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using AttendanceEpiisBk.Model.Dtos.Event;
+using AttendanceEpiisBk.Model.Dtos.Guest;
 using AttendanceEpiisBk.Model.Dtos.Participant;
 using Mapster;
 using Microsoft.EntityFrameworkCore;
@@ -99,5 +100,7 @@ public class TeacherAdapter : ITeacherInputPort
         await _teacherRepository.SaveChangesAsync();
         _teacherOutPort.Success(teacherEntity, "Teacher created successfully.");
     }
+  
+    
 }
         

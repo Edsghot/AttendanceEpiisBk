@@ -1,4 +1,5 @@
 ﻿
+using AttendanceEpiisBk.Model.Dtos.Guest;
 using AttendanceEpiisBk.Model.Dtos.Teacher;
 
 namespace AttendanceEpiisBk.Modules.Teacher.Application.Port;
@@ -9,4 +10,5 @@ public interface ITeacherInputPort
     Task GetById(int id);
     Task ParticipantGetByDni(string dni);
     Task CreateTeacher(TeacherDto teacherDto);
+    Task CreateGuest(GuestDto data);
 }
