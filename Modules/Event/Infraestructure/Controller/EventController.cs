@@ -66,6 +66,15 @@ public class EventController : ControllerBase
         var response = _eventOutPort.GetResponse;
         return Ok(response);
     }    
+    
+    [HttpGet("GetAllGuest")]
+    public async Task<IActionResult> GetAllGuest()
+    {
+        await _eventInputPort.GetAllGuest();
+        var response = _eventOutPort.GetResponse;
+
+        return Ok(response);
+    }
 
     
     // PUT api/<ResearchController>/5

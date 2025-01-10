@@ -118,18 +118,18 @@ public class EventAdapter : IEventInputPort
       
         public async Task GetAllGuest()
         {
-            var events = await _eventRepository.GetAllAsync<GuestEntity>( );
+            var guests = await _eventRepository.GetAllAsync<GuestEntity>( );
 
-            var eventEntities = events.ToList();
+            var eventEntities = guests.ToList();
             if (!eventEntities.Any())
             {
                 _eventOutPort.NotFound("No tiene Guest");
                 return;
             }
 
-            var eventDtos = events.Adapt<List<EventDto>>();
+            var eventDtos = guests.Adapt<List<GuestDto>>();
 
-            _eventOutPort.GetAllAsync(eventDtos);
+            _eventOutPort.GetAllGuest(eventDtos,"sas");
         }
    
 }
