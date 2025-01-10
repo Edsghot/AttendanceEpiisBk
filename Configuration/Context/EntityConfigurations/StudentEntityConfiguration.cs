@@ -17,25 +17,23 @@ public class StudentEntityConfiguration : IEntityTypeConfiguration<StudentEntity
 
         builder.Property(s => s.LastName)
             .HasMaxLength(300)
-            .IsRequired();
+            .IsRequired(false);
 
         builder.Property(s => s.Mail)
             .HasMaxLength(100)
-            .IsRequired();
+            .IsRequired(false);
 
         builder.Property(s => s.Phone)
             .HasMaxLength(100)
-            .IsRequired();
+            .IsRequired(false);
 
         builder.Property(s => s.Password)
             .HasMaxLength(100)
-            .IsRequired();
+            .IsRequired(false);
 
-        builder.Property(s => s.Gender)
-            .IsRequired();
+        builder.Property(s => s.Gender);
 
-        builder.Property(s => s.BirthDate)
-            .IsRequired();
+        builder.Property(s => s.BirthDate);
 
         builder.Property(s => s.Dni)
             .IsRequired();
@@ -43,6 +41,6 @@ public class StudentEntityConfiguration : IEntityTypeConfiguration<StudentEntity
         builder.HasMany(s => s.Attendances)
             .WithOne(a => a.Student)
             .HasForeignKey(a => a.StudentId)
-            .OnDelete(DeleteBehavior.Cascade);
+            .OnDelete(DeleteBehavior.Cascade).IsRequired(false);;
     }
 }

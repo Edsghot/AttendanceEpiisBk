@@ -11,22 +11,30 @@ public class EventEntityConfiguration : IEntityTypeConfiguration<EventEntity>
 
         builder.Property(e => e.Name)
             .HasMaxLength(200)
-            .IsRequired();
+            .IsRequired(false);
 
-        builder.Property(e => e.Date)
-            .IsRequired();
+        builder.Property(e => e.Date);
+
+        builder.Property(e => e.StartTime);
+
+        builder.Property(e => e.EndTime);
 
         builder.Property(e => e.Location)
             .HasMaxLength(300)
-            .IsRequired();
+            .IsRequired(false);
 
-        builder.Property(e => e.IsPrivate)
-            .IsRequired();
+        builder.Property(e => e.IsPrivate);
 
         builder.Property(e => e.Description)
-            .HasMaxLength(1000);
+            .HasMaxLength(1000)
+            .IsRequired(false);
 
-        builder.Property(e => e.Duration)
-            .IsRequired();
+        builder.Property(e => e.EventTypeId);
+
+        builder.HasMany(e => e.Attendances)
+            .WithOne(a => a.Event)
+            .HasForeignKey(a => a.EventId)
+            .OnDelete(DeleteBehavior.Cascade).IsRequired(false);
+
     }
 }

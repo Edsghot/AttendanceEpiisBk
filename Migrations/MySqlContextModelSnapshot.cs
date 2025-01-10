@@ -34,10 +34,10 @@ namespace AttendanceEpiisBk.Migrations
                     b.Property<bool>("IsPresent")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<int>("StudentId")
+                    b.Property<int?>("StudentId")
                         .HasColumnType("int");
 
-                    b.Property<int>("TeacherId")
+                    b.Property<int?>("TeacherId")
                         .HasColumnType("int");
 
                     b.HasKey("IdAttendance");
@@ -61,12 +61,8 @@ namespace AttendanceEpiisBk.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasMaxLength(1000)
                         .HasColumnType("varchar(1000)");
-
-                    b.Property<TimeSpan>("Duration")
-                        .HasColumnType("time(6)");
 
                     b.Property<DateTime>("EndTime")
                         .HasColumnType("datetime(6)");
@@ -78,12 +74,10 @@ namespace AttendanceEpiisBk.Migrations
                         .HasColumnType("tinyint(1)");
 
                     b.Property<string>("Location")
-                        .IsRequired()
                         .HasMaxLength(300)
                         .HasColumnType("varchar(300)");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("varchar(200)");
 
@@ -117,22 +111,18 @@ namespace AttendanceEpiisBk.Migrations
                         .HasColumnType("tinyint(1)");
 
                     b.Property<string>("LastName")
-                        .IsRequired()
                         .HasMaxLength(300)
                         .HasColumnType("varchar(300)");
 
                     b.Property<string>("Mail")
-                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("varchar(100)");
 
                     b.Property<string>("Password")
-                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("varchar(100)");
 
                     b.Property<string>("Phone")
-                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("varchar(100)");
 
@@ -151,7 +141,6 @@ namespace AttendanceEpiisBk.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Dni")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("FirstName")
@@ -163,22 +152,18 @@ namespace AttendanceEpiisBk.Migrations
                         .HasColumnType("tinyint(1)");
 
                     b.Property<string>("LastName")
-                        .IsRequired()
                         .HasMaxLength(300)
                         .HasColumnType("varchar(300)");
 
                     b.Property<string>("Mail")
-                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("varchar(100)");
 
                     b.Property<string>("Password")
-                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("varchar(100)");
 
                     b.Property<string>("Phone")
-                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("varchar(100)");
 
@@ -192,20 +177,17 @@ namespace AttendanceEpiisBk.Migrations
                     b.HasOne("AttendanceEpiisBk.Modules.Event.Domain.Entity.EventEntity", "Event")
                         .WithMany("Attendances")
                         .HasForeignKey("EventId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("AttendanceEpiisBk.Modules.Student.Domain.Entity.StudentEntity", "Student")
                         .WithMany("Attendances")
                         .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("AttendanceEpiisBk.Modules.Teacher.Domain.Entity.TeacherEntity", "Teacher")
                         .WithMany("Attendances")
                         .HasForeignKey("TeacherId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Event");
 

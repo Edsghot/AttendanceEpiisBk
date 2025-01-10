@@ -17,31 +17,29 @@ public class TeacherEntityConfiguration : IEntityTypeConfiguration<TeacherEntity
 
         builder.Property(t => t.LastName)
             .HasMaxLength(300)
-            .IsRequired();
+            .IsRequired(false);
 
         builder.Property(t => t.Mail)
             .HasMaxLength(100)
-            .IsRequired();
+            .IsRequired(false);
 
         builder.Property(t => t.Password)
             .HasMaxLength(100)
-            .IsRequired();
+            .IsRequired(false);
 
         builder.Property(t => t.Phone)
             .HasMaxLength(100)
-            .IsRequired();
+            .IsRequired(false);
 
-        builder.Property(t => t.Gender)
-            .IsRequired();
+        builder.Property(t => t.Gender);
 
-        builder.Property(t => t.BirthDate)
-            .IsRequired();
+        builder.Property(t => t.BirthDate);
         builder.Property(t => t.Dni)
-            .IsRequired();
+            .IsRequired(false);
         builder.HasMany(t => t.Attendances)
             .WithOne(a => a.Teacher)
             .HasForeignKey(a => a.TeacherId)
-            .OnDelete(DeleteBehavior.Cascade);
+            .OnDelete(DeleteBehavior.Cascade).IsRequired(false);;
 
     }
 }

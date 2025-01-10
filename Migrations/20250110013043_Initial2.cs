@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace AttendanceEpiisBk.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class Initial2 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -19,17 +19,16 @@ namespace AttendanceEpiisBk.Migrations
                 {
                     IdEvent = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: false)
+                    Name = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Date = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     StartTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     EndTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    Location = table.Column<string>(type: "varchar(300)", maxLength: 300, nullable: false)
+                    Location = table.Column<string>(type: "varchar(300)", maxLength: 300, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     IsPrivate = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    Description = table.Column<string>(type: "varchar(1000)", maxLength: 1000, nullable: false)
+                    Description = table.Column<string>(type: "varchar(1000)", maxLength: 1000, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Duration = table.Column<TimeSpan>(type: "time(6)", nullable: false),
                     EventTypeId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -46,13 +45,13 @@ namespace AttendanceEpiisBk.Migrations
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     FirstName = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    LastName = table.Column<string>(type: "varchar(300)", maxLength: 300, nullable: false)
+                    LastName = table.Column<string>(type: "varchar(300)", maxLength: 300, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Mail = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
+                    Mail = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Phone = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
+                    Phone = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Password = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
+                    Password = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Gender = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     BirthDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
@@ -73,17 +72,17 @@ namespace AttendanceEpiisBk.Migrations
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     FirstName = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    LastName = table.Column<string>(type: "varchar(300)", maxLength: 300, nullable: false)
+                    LastName = table.Column<string>(type: "varchar(300)", maxLength: 300, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Mail = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
+                    Mail = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Phone = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
+                    Phone = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Password = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
+                    Password = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Gender = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     BirthDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    Dni = table.Column<string>(type: "longtext", nullable: false)
+                    Dni = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
@@ -101,8 +100,8 @@ namespace AttendanceEpiisBk.Migrations
                     Date = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     IsPresent = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     EventId = table.Column<int>(type: "int", nullable: false),
-                    StudentId = table.Column<int>(type: "int", nullable: false),
-                    TeacherId = table.Column<int>(type: "int", nullable: false)
+                    StudentId = table.Column<int>(type: "int", nullable: true),
+                    TeacherId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {

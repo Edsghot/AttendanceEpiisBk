@@ -13,7 +13,6 @@ public record EventEntity
     public string Location { get; set; } = string.Empty;
     public bool IsPrivate { get; set; }
     public string Description { get; set; } = string.Empty;
-    public TimeSpan Duration { get; set; }
     public int EventTypeId { get; set; }
 
     public ICollection<AttendanceEntity> Attendances { get; set; } = new List<AttendanceEntity>();

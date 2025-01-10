@@ -12,26 +12,25 @@ public class AttendanceEntityConfiguration : IEntityTypeConfiguration<Attendance
             builder.ToTable("Attendance");
             builder.HasKey(a => a.IdAttendance);
 
-            builder.Property(a => a.Date)
-                .IsRequired();
+            builder.Property(a => a.Date);
 
-            builder.Property(a => a.IsPresent)
-                .IsRequired();
+
+            builder.Property(a => a.IsPresent);
 
             builder.HasOne(a => a.Teacher)
                 .WithMany(t => t.Attendances)
                 .HasForeignKey(a => a.TeacherId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Cascade).IsRequired(false);
             
             builder.HasOne(a => a.Student)
                 .WithMany(s => s.Attendances)
                 .HasForeignKey(a => a.StudentId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Cascade).IsRequired(false);
 
             builder.HasOne(a => a.Event)
                 .WithMany(e => e.Attendances)
                 .HasForeignKey(a => a.EventId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Cascade).IsRequired(false);
         }
     
 }
