@@ -133,54 +133,69 @@ public class AttendanceAdapter : IAttendanceInputPort
     }
     
     public async Task TakeAttendance(InsertAttendanceDto attendanceDto)
-    {
-        var teacher = await _attendanceRepository.GetAsync<TeacherEntity>(x => x.Dni == attendanceDto.Dni);
-        var student = await _attendanceRepository.GetAsync<StudentEntity>(x => x.Dni == attendanceDto.Dni);
+{
+    var teacher = await _attendanceRepository.GetAsync<TeacherEntity>(x => x.Dni == attendanceDto.Dni);
+    var student = await _attendanceRepository.GetAsync<StudentEntity>(x => x.Dni == attendanceDto.Dni);
+    var guest = await _attendanceRepository.GetAsync<GuestEntity>(x => x.Dni == attendanceDto.Dni);
 
-        if (teacher == null && student == null)
+    AttendanceEntity attendance = null;
+
+    if (teacher != null)
+    {
+        attendance = await _attendanceRepository.GetAsync<AttendanceEntity>(x => x.TeacherId == teacher.IdTeacher);
+        if (attendance != null && attendance.IsPresent)
         {
-            _attendanceOutPort.NotFound("No se registro este participante");
+            _attendanceOutPort.Success(new object(), "El docente ya se encuentra registrado");
             return;
         }
-        var attendance = await _attendanceRepository.GetAsync<AttendanceEntity>(x => x.TeacherId == teacher.IdTeacher );
+    }
+    else if (student != null)
+    {
+        attendance = await _attendanceRepository.GetAsync<AttendanceEntity>(x => x.StudentId == student.IdStudent);
+        if (attendance != null && attendance.IsPresent)
+        {
+            _attendanceOutPort.Success(new object(), "El estudiante ya se encuentra registrado");
+            return;
+        }
+    }
+    else if (guest != null)
+    {
+        attendance = await _attendanceRepository.GetAsync<AttendanceEntity>(x => x.GuestId == guest.IdGuest);
+        if (attendance != null && attendance.IsPresent)
+        {
+            _attendanceOutPort.Success(new object(), "El invitado ya se encuentra registrado");
+            return;
+        }
+    }
 
-        if (teacher != null && attendance.IsPresent)
-        {
-            _attendanceOutPort.Success(new object(),"El docente ya se encuentra registrado ");
-            return;            
-        }
-        if (teacher == null)
-        {
-            attendance = await _attendanceRepository.GetAsync<AttendanceEntity>(x => x.StudentId == student.IdStudent );
- 
-            if (attendance.IsPresent)
-            {
-                _attendanceOutPort.Success(new object(),"El estudiante ya se encuentra registrado ");
-                return;            
-            }
-            
-            if (attendance == null)
-            {
-                _attendanceOutPort.Error("No se registro este participante para este evento");
-                return;            
-            }
-            
-            attendance.Date = DateTime.Now;
-            attendance.IsPresent = true;
-            await _attendanceRepository.UpdateAsync(attendance);
-            await _attendanceRepository.SaveChangesAsync();
-            var res = student.Adapt<ParticipantDataDto>();
-            res.Role = 1;
-            _attendanceOutPort.TakeAttendance(res);
-        }
-       
-        
-        attendance.Date = DateTime.Now;
-        attendance.IsPresent = true;
-        await _attendanceRepository.UpdateAsync(attendance);
-        await _attendanceRepository.SaveChangesAsync();
+    if (attendance == null)
+    {
+        _attendanceOutPort.Error("No se encontró el participante, registrelo");
+        return;
+    }
+
+    attendance.Date = DateTime.Now;
+    attendance.IsPresent = true;
+    await _attendanceRepository.UpdateAsync(attendance);
+    await _attendanceRepository.SaveChangesAsync();
+
+    if (teacher != null)
+    {
         var resTeacher = teacher.Adapt<ParticipantDataDto>();
         resTeacher.Role = 0;
         _attendanceOutPort.TakeAttendance(resTeacher);
     }
+    else if (student != null)
+    {
+        var resStudent = student.Adapt<ParticipantDataDto>();
+        resStudent.Role = 1;
+        _attendanceOutPort.TakeAttendance(resStudent);
+    }
+    else if (guest != null)
+    {
+        var resGuest = guest.Adapt<ParticipantDataDto>();
+        resGuest.Role = 2;
+        _attendanceOutPort.TakeAttendance(resGuest);
+    }
+}
 }
