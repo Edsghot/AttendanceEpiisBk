@@ -122,7 +122,7 @@ public class AttendanceAdapter : IAttendanceInputPort
 
         if (teacher != null && attendance.IsPresent)
         {
-            _attendanceOutPort.Success("El docente ya se encuentra registrado en este evento");
+            _attendanceOutPort.Success(new object(),"El docente ya se encuentra registrado ");
             return;            
         }
         if (teacher == null)
@@ -131,7 +131,7 @@ public class AttendanceAdapter : IAttendanceInputPort
  
             if (attendance.IsPresent)
             {
-                _attendanceOutPort.Success("El estudiante ya se encuentra registrado en este evento");
+                _attendanceOutPort.Success(new object(),"El estudiante ya se encuentra registrado ");
                 return;            
             }
             
