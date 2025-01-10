@@ -177,26 +177,34 @@ public class AttendanceAdapter : IAttendanceInputPort
 
     attendance = new AttendanceEntity();
     attendance.Date = DateTime.Now;
+    attendance.EventId = attendanceDto.EventId;
     attendance.IsPresent = true;
-    await _attendanceRepository.UpdateAsync(attendance);
-    await _attendanceRepository.SaveChangesAsync();
 
     if (teacher != null)
     {
         var resTeacher = teacher.Adapt<ParticipantDataDto>();
         resTeacher.Role = 0;
+        attendance.TeacherId = teacher.IdTeacher;
+        await _attendanceRepository.UpdateAsync(attendance);
+        await _attendanceRepository.SaveChangesAsync();
         _attendanceOutPort.TakeAttendance(resTeacher);
     }
     else if (student != null)
     {
         var resStudent = student.Adapt<ParticipantDataDto>();
         resStudent.Role = 1;
+        attendance.StudentId = student.IdStudent;
+        await _attendanceRepository.UpdateAsync(attendance);
+        await _attendanceRepository.SaveChangesAsync();
         _attendanceOutPort.TakeAttendance(resStudent);
     }
     else if (guest != null)
     {
         var resGuest = guest.Adapt<ParticipantDataDto>();
         resGuest.Role = 2;
+        attendance.GuestId = guest.IdGuest;
+        await _attendanceRepository.UpdateAsync(attendance);
+        await _attendanceRepository.SaveChangesAsync();
         _attendanceOutPort.TakeAttendance(resGuest);
     }
 }
