@@ -17,14 +17,14 @@ public class BasePresenter<T> : IBasePresenter<T>
     }
 
     public void NotFound(string message = "Data not found")
+{
+    GetResponse = new ResponseDto<T>
     {
-        GetResponse = new ResponseDto<T>
-        {
-            Success = true,
-            Message = message,
-            Data = default(T) is IEnumerable<T> ? (T)(object)new List<T>() : default(T)
-        };
-    }
+        Success = true,
+        Message = message,
+        Data = typeof(T) == typeof(IEnumerable<object>) ? (T)(object)new List<object>() : default(T)
+    };
+}
 
     public void Error(string message)
     {
