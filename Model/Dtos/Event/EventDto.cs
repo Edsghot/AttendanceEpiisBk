@@ -15,6 +15,6 @@ public record EventDto
     public int EventTypeId { get; set; }
     public bool AllTeacher { get; set; }
     public bool AllStudent { get; set; }
-
+    public bool AllGuest { get; set; }
     public List<AttendanceDto>? Attendances { get; set; }
 }

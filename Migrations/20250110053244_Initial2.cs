@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace AttendanceEpiisBk.Migrations
 {
-    public partial class Initial1 : Migration
+    public partial class Initial2 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -33,7 +33,8 @@ namespace AttendanceEpiisBk.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     EventTypeId = table.Column<int>(type: "int", nullable: false),
                     AllTeacher = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    AllStudent = table.Column<bool>(type: "tinyint(1)", nullable: false)
+                    AllStudent = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    AllGuest = table.Column<bool>(type: "tinyint(1)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -121,8 +122,7 @@ namespace AttendanceEpiisBk.Migrations
                     EventId = table.Column<int>(type: "int", nullable: false),
                     StudentId = table.Column<int>(type: "int", nullable: true),
                     TeacherId = table.Column<int>(type: "int", nullable: true),
-                    GuestId = table.Column<int>(type: "int", nullable: true),
-                    GuestIdGuest = table.Column<int>(type: "int", nullable: false)
+                    GuestId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -136,12 +136,6 @@ namespace AttendanceEpiisBk.Migrations
                     table.ForeignKey(
                         name: "FK_Attendance_Guest_GuestId",
                         column: x => x.GuestId,
-                        principalTable: "Guest",
-                        principalColumn: "IdGuest",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Attendance_Guest_GuestIdGuest",
-                        column: x => x.GuestIdGuest,
                         principalTable: "Guest",
                         principalColumn: "IdGuest",
                         onDelete: ReferentialAction.Cascade);
@@ -169,11 +163,6 @@ namespace AttendanceEpiisBk.Migrations
                 name: "IX_Attendance_GuestId",
                 table: "Attendance",
                 column: "GuestId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Attendance_GuestIdGuest",
-                table: "Attendance",
-                column: "GuestIdGuest");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Attendance_StudentId",

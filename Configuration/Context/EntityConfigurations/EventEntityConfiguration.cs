@@ -28,6 +28,9 @@ public class EventEntityConfiguration : IEntityTypeConfiguration<EventEntity>
         builder.Property(e => e.AllStudent);
         
         builder.Property(e => e.AllTeacher);
+        
+        
+        builder.Property(e => e.AllGuest);
 
         builder.Property(e => e.Description)
             .HasMaxLength(1000)

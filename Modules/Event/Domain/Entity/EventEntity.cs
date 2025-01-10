@@ -16,5 +16,6 @@ public record EventEntity
     public int EventTypeId { get; set; }
     public bool AllTeacher { get; set; }
     public bool AllStudent { get; set; }
+    public bool AllGuest { get; set; }
     public ICollection<AttendanceEntity> Attendances { get; set; } = new List<AttendanceEntity>();
 }

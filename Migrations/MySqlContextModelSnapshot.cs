@@ -34,9 +34,6 @@ namespace AttendanceEpiisBk.Migrations
                     b.Property<int?>("GuestId")
                         .HasColumnType("int");
 
-                    b.Property<int>("GuestIdGuest")
-                        .HasColumnType("int");
-
                     b.Property<bool>("IsPresent")
                         .HasColumnType("tinyint(1)");
 
@@ -52,8 +49,6 @@ namespace AttendanceEpiisBk.Migrations
 
                     b.HasIndex("GuestId");
 
-                    b.HasIndex("GuestIdGuest");
-
                     b.HasIndex("StudentId");
 
                     b.HasIndex("TeacherId");
@@ -66,6 +61,9 @@ namespace AttendanceEpiisBk.Migrations
                     b.Property<int>("IdEvent")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    b.Property<bool>("AllGuest")
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<bool>("AllStudent")
                         .HasColumnType("tinyint(1)");
@@ -214,16 +212,10 @@ namespace AttendanceEpiisBk.Migrations
                         .HasForeignKey("EventId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("AttendanceEpiisBk.Modules.Event.Domain.Entity.GuestEntity", null)
+                    b.HasOne("AttendanceEpiisBk.Modules.Event.Domain.Entity.GuestEntity", "Guest")
                         .WithMany("Attendances")
                         .HasForeignKey("GuestId")
                         .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("AttendanceEpiisBk.Modules.Event.Domain.Entity.GuestEntity", "Guest")
-                        .WithMany()
-                        .HasForeignKey("GuestIdGuest")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
 
                     b.HasOne("AttendanceEpiisBk.Modules.Student.Domain.Entity.StudentEntity", "Student")
                         .WithMany("Attendances")
