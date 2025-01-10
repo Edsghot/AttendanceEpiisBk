@@ -4,6 +4,7 @@ public record ParticipantDataDto
 {
     public int IdTeacher { get; set; }
     public int IdStudent { get; set; }
+    public int IdGuest { get; set; }
     public string FirstName { get; set; } = string.Empty;
     public string LastName { get; set; } = string.Empty;
     public string Mail { get; set; } = string.Empty;
