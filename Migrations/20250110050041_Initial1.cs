@@ -32,7 +32,8 @@ namespace AttendanceEpiisBk.Migrations
                     Description = table.Column<string>(type: "varchar(1000)", maxLength: 1000, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     EventTypeId = table.Column<int>(type: "int", nullable: false),
-                    TodoTeacher = table.Column<bool>(type: "tinyint(1)", nullable: false)
+                    AllTeacher = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    AllStudent = table.Column<bool>(type: "tinyint(1)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -51,6 +52,8 @@ namespace AttendanceEpiisBk.Migrations
                     LastName = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Mail = table.Column<string>(type: "varchar(300)", maxLength: 300, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Dni = table.Column<string>(type: "varchar(10)", maxLength: 10, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>

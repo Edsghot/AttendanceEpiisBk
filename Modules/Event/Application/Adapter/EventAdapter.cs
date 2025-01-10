@@ -110,7 +110,7 @@ public class EventAdapter : IEventInputPort
                 return;
             }
     
-            var guestEntity = existingDto.Adapt<GuestEntity>();
+            var guestEntity = data.Adapt<GuestEntity>();
             await _eventRepository.AddAsync(guestEntity);
             await _eventRepository.SaveChangesAsync();
             _eventOutPort.Success(guestEntity, "Teacher created successfully.");

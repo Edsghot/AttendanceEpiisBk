@@ -10,5 +10,5 @@ public interface ITeacherInputPort
     Task GetById(int id);
     Task ParticipantGetByDni(string dni);
     Task CreateTeacher(TeacherDto teacherDto);
-    Task CreateGuest(GuestDto data);
+
 }

@@ -24,10 +24,15 @@ public class EventEntityConfiguration : IEntityTypeConfiguration<EventEntity>
             .IsRequired(false);
 
         builder.Property(e => e.IsPrivate);
+        
+        builder.Property(e => e.AllStudent);
+        
+        builder.Property(e => e.AllTeacher);
 
         builder.Property(e => e.Description)
             .HasMaxLength(1000)
             .IsRequired(false);
+        
 
         builder.Property(e => e.EventTypeId);
 

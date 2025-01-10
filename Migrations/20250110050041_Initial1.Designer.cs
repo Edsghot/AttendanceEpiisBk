@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AttendanceEpiisBk.Migrations
 {
     [DbContext(typeof(MySqlContext))]
-    [Migration("20250110044020_Initial1")]
+    [Migration("20250110050041_Initial1")]
     partial class Initial1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -69,6 +69,12 @@ namespace AttendanceEpiisBk.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<bool>("AllStudent")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<bool>("AllTeacher")
+                        .HasColumnType("tinyint(1)");
+
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime(6)");
 
@@ -98,9 +104,6 @@ namespace AttendanceEpiisBk.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<bool>("TodoTeacher")
-                        .HasColumnType("tinyint(1)");
-
                     b.HasKey("IdEvent");
 
                     b.ToTable("Event", (string)null);
@@ -111,6 +114,11 @@ namespace AttendanceEpiisBk.Migrations
                     b.Property<int>("IdGuest")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    b.Property<string>("Dni")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("varchar(10)");
 
                     b.Property<string>("FirstName")
                         .IsRequired()

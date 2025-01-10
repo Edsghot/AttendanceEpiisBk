@@ -17,6 +17,7 @@ public class MySqlContext : DbContext
     public DbSet<AttendanceEntity> Attendances { get; set; }
     public DbSet<TeacherEntity> Teachers { get; set; }
     public DbSet<StudentEntity> Students { get; set; }
+    public DbSet<GuestEntity> Guests { get; set; }
 
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
