@@ -175,7 +175,7 @@ public class AttendanceAdapter : IAttendanceInputPort
     }
 
 
-    attendance = new AttendanceEntity();tc
+    attendance = new AttendanceEntity();
     attendance.Date = DateTime.Now;
     attendance.IsPresent = true;
     await _attendanceRepository.UpdateAsync(attendance);
