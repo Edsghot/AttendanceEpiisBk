@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using AttendanceEpiisBk.Model.Dtos.Teacher;
 using AttendanceEpiisBk.Modules.Attendance.Application.Port;
 using AttendanceEpiisBk.Modules.Attendance.Domain.Entity;
+using AttendanceEpiisBk.Modules.Event.Domain.Entity;
 using AttendanceEpiisBk.Modules.Event.Domain.IRepository;
 using AttendanceEpiisBk.Modules.Student.Domain.Entity;
 using AttendanceEpiisBk.Modules.Teacher.Domain.Entity;
@@ -85,27 +86,49 @@ public class AttendanceAdapter : IAttendanceInputPort
             
             _attendanceOutPort.Success("El docente "+teacher.FirstName + " " + teacher.LastName + " ha sido registrado");
             return;
+        }else if (data.Role == 1)
+        {
+            var student = await _attendanceRepository.GetAsync<StudentEntity>(x => x.IdStudent == data.IdParticipant);
+            if(student == null)
+            {
+                _attendanceOutPort.Error("Debe registrar al estudiante para agregarlo");
+                return;
+            }
+
+            var participanS = await _attendanceRepository.GetAsync<AttendanceEntity>(x => x.StudentId == student.IdStudent && x.EventId == data.EventId);
+            if(participanS != null)
+            {
+                _attendanceOutPort.Error("El estudiante ya se encuentra registrado en evento seleccionado");
+                return;
+            }
+
+            attendance.StudentId = student.IdStudent;
+            await _attendanceRepository.AddAsync(attendance);
+            await _attendanceRepository.SaveChangesAsync();
+            
+            _attendanceOutPort.Success("El estudiante "+student.FirstName + " " + student.LastName + " ha sido registrado");
         }
         
-        var student = await _attendanceRepository.GetAsync<StudentEntity>(x => x.IdStudent == data.IdParticipant);
-        if(student == null)
+        var guest = await _attendanceRepository.GetAsync<GuestEntity>(x => x.IdGuest == data.IdParticipant);
+        if (guest == null)
         {
-            _attendanceOutPort.Error("Debe registrar al estudiante para agregarlo");
+            _attendanceOutPort.Error("Debe registrar al invitado para agregarlo");
             return;
         }
 
-        var participanS = await _attendanceRepository.GetAsync<AttendanceEntity>(x => x.StudentId == student.IdStudent && x.EventId == data.EventId);
-        if(participanS != null)
+        var participantG = await _attendanceRepository.GetAsync<AttendanceEntity>(x => x.GuestId == guest.IdGuest && x.EventId == data.EventId);
+        if (participantG != null)
         {
-            _attendanceOutPort.Error("El estudiante ya se encuentra registrado en evento seleccionado");
+            _attendanceOutPort.Error("El invitado ya se encuentra registrado en el evento seleccionado");
             return;
         }
 
-        attendance.StudentId = student.IdStudent;
+        attendance.GuestId = guest.IdGuest;
         await _attendanceRepository.AddAsync(attendance);
         await _attendanceRepository.SaveChangesAsync();
-            
-        _attendanceOutPort.Success("El estudiante "+student.FirstName + " " + student.LastName + " ha sido registrado");
+
+        _attendanceOutPort.Success("El invitado " + guest.FirstName + " " + guest.LastName + " ha sido registrado");
+    
     }
     
     public async Task TakeAttendance(InsertAttendanceDto attendanceDto)
