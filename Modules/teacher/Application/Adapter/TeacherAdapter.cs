@@ -1,4 +1,5 @@
-﻿using AttendanceEpiisBk.Model.Dtos.Event;
+﻿using System.ComponentModel.DataAnnotations;
+using AttendanceEpiisBk.Model.Dtos.Event;
 using AttendanceEpiisBk.Model.Dtos.Participant;
 using Mapster;
 using Microsoft.EntityFrameworkCore;
@@ -7,6 +8,8 @@ using AttendanceEpiisBk.Modules.Student.Domain.Entity;
 using AttendanceEpiisBk.Modules.Teacher.Application.Port;
 using AttendanceEpiisBk.Modules.Teacher.Domain.Entity;
 using AttendanceEpiisBk.Modules.Teacher.Domain.IRepository;
+using FluentValidation;
+using ValidationResult = FluentValidation.Results.ValidationResult;
 
 namespace AttendanceEpiisBk.Modules.Teacher.Application.Adapter;
 
@@ -14,11 +17,13 @@ public class TeacherAdapter : ITeacherInputPort
 {
     private readonly ITeacherOutPort _teacherOutPort;
     private readonly ITeacherRepository _teacherRepository;
+    private readonly IValidator<TeacherDto> _validator;
 
-    public TeacherAdapter(ITeacherRepository repository, ITeacherOutPort teacherOutPort)
+    public TeacherAdapter(ITeacherRepository repository, ITeacherOutPort teacherOutPort,IValidator<TeacherDto> validator)
     {
         _teacherRepository = repository;
         _teacherOutPort = teacherOutPort;
+        _validator = validator;
     }
 
     public async Task GetById(int id)
@@ -73,6 +78,13 @@ public class TeacherAdapter : ITeacherInputPort
     
     public async Task CreateTeacher(TeacherDto teacherDto)
     {
+        var result = await _validator.ValidateAsync(teacherDto);
+        if (!result.IsValid)
+        {
+            _teacherOutPort.Error(result.Errors.ToString());
+            return;
+        }
+
         var teacherEntity = teacherDto.Adapt<TeacherEntity>();
         await _teacherRepository.AddAsync(teacherEntity);
         await _teacherRepository.SaveChangesAsync();

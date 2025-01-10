@@ -72,10 +72,10 @@ public class AttendanceAdapter : IAttendanceInputPort
                 return;
             }
 
-            var participant = await _attendanceRepository.GetAsync<AttendanceEntity>(x => x.TeacherId == teacher.IdTeacher);
+            var participant = await _attendanceRepository.GetAsync<AttendanceEntity>(x => x.TeacherId == teacher.IdTeacher && x.EventId == data.EventId);
             if(participant != null)
             {
-                _attendanceOutPort.Error("El docente ya se encuentra registrado");
+                _attendanceOutPort.Error("El docente ya se encuentra registrado en el evento seleccionado");
                 return;
             }
 
@@ -94,10 +94,10 @@ public class AttendanceAdapter : IAttendanceInputPort
             return;
         }
 
-        var participanS = await _attendanceRepository.GetAsync<AttendanceEntity>(x => x.StudentId == student.IdStudent);
+        var participanS = await _attendanceRepository.GetAsync<AttendanceEntity>(x => x.StudentId == student.IdStudent && x.EventId == data.EventId);
         if(participanS != null)
         {
-            _attendanceOutPort.Error("El estudiante ya se encuentra registrado");
+            _attendanceOutPort.Error("El estudiante ya se encuentra registrado en evento seleccionado");
             return;
         }
 

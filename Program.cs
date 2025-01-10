@@ -7,6 +7,7 @@ using AttendanceEpiisBk.Modules.Teacher.Infraestructure.Repository;
 using Mapster;
 using Microsoft.EntityFrameworkCore;
 using AttendanceEpiisBk.Mapping;
+using AttendanceEpiisBk.Model.Dtos.Teacher;
 using AttendanceEpiisBk.Modules.Attendance.Application.Adapter;
 using AttendanceEpiisBk.Modules.Attendance.Application.Port;
 using AttendanceEpiisBk.Modules.Attendance.Infraestructure.Presenter;
@@ -21,6 +22,7 @@ using AttendanceEpiisBk.Modules.Student.Application.Port;
 using AttendanceEpiisBk.Modules.Student.Domain.IRepository;
 using AttendanceEpiisBk.Modules.Student.Infraestructure.Presenter;
 using AttendanceEpiisBk.Modules.Student.Infraestructure.Repository;
+using FluentValidation;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -52,6 +54,7 @@ builder.Services.AddScoped<IAttendanceRepository, AttendanceRepository>();
 builder.Services.AddScoped<IAttendanceOutPort, AttendancePresenter>();
 
 
+builder.Services.AddScoped<IValidator<TeacherDto>, TeacherDtoValidator>();
 
 
 
