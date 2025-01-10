@@ -5,6 +5,7 @@ using AttendanceEpiisBk.Model.Dtos.Participant;
 using Mapster;
 using Microsoft.EntityFrameworkCore;
 using AttendanceEpiisBk.Model.Dtos.Teacher;
+using AttendanceEpiisBk.Modules.Event.Domain.Entity;
 using AttendanceEpiisBk.Modules.Student.Domain.Entity;
 using AttendanceEpiisBk.Modules.Teacher.Application.Port;
 using AttendanceEpiisBk.Modules.Teacher.Domain.Entity;
@@ -57,25 +58,40 @@ public class TeacherAdapter : ITeacherInputPort
         _teacherOutPort.GetAllAsync(teacherDtos);
     }
 
-    public async Task ParticipantGetByDni(string dni)
+  public async Task ParticipantGetByDni(string dni)
+{
+    var teachers = await _teacherRepository.GetAsync<TeacherEntity>(x => x.Dni.Equals(dni));
+    
+    if (teachers == null)
     {
-        var teachers = await _teacherRepository.GetAsync<TeacherEntity>(x => x.Dni.Equals(dni));
+        var students = await _teacherRepository.GetAsync<StudentEntity>(e => e.Dni.Equals(dni));
         
-        if(teachers == null)
+        if (students == null)
         {
-            var students = await _teacherRepository.GetAsync<StudentEntity>(e => e.Dni.Equals(dni));
-
-            var response = students.Adapt<ParticipantDataDto>();
-            response.Role = 1;
-            _teacherOutPort.ParticipantGetByDni(response);
-            return;
+            var guests = await _teacherRepository.GetAsync<GuestEntity>(g => g.Dni.Equals(dni));
             
+            if (guests == null)
+            {
+                _teacherOutPort.NotFound("No participant found.");
+                return;
+            }
+            
+            var guestResponse = guests.Adapt<ParticipantDataDto>();
+            guestResponse.Role = 2;
+            _teacherOutPort.ParticipantGetByDni(guestResponse);
+            return;
         }
         
-        var res = teachers.Adapt<ParticipantDataDto>();
-        res.Role = 0;
-        _teacherOutPort.ParticipantGetByDni(res);
+        var studentResponse = students.Adapt<ParticipantDataDto>();
+        studentResponse.Role = 1;
+        _teacherOutPort.ParticipantGetByDni(studentResponse);
+        return;
     }
+    
+    var teacherResponse = teachers.Adapt<ParticipantDataDto>();
+    teacherResponse.Role = 0;
+    _teacherOutPort.ParticipantGetByDni(teacherResponse);
+}
     
     public async Task CreateTeacher(TeacherDto teacherDto)
     {
