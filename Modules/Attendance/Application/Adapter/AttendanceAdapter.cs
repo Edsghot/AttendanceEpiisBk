@@ -138,7 +138,8 @@ public class AttendanceAdapter : IAttendanceInputPort
     var student = await _attendanceRepository.GetAsync<StudentEntity>(x => x.Dni == attendanceDto.Dni);
     var guest = await _attendanceRepository.GetAsync<GuestEntity>(x => x.Dni == attendanceDto.Dni);
 
-    AttendanceEntity attendance = null;
+    AttendanceEntity attendance = new AttendanceEntity()
+;
 
     if (teacher != null)
     {
@@ -173,8 +174,8 @@ public class AttendanceAdapter : IAttendanceInputPort
         }
     }
 
-    
 
+    attendance = new AttendanceEntity();tc
     attendance.Date = DateTime.Now;
     attendance.IsPresent = true;
     await _attendanceRepository.UpdateAsync(attendance);
