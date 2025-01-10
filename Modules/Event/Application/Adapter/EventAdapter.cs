@@ -115,5 +115,21 @@ public class EventAdapter : IEventInputPort
             await _eventRepository.SaveChangesAsync();
             _eventOutPort.Success(guestEntity, "Teacher created successfully.");
         }
+      
+        public async Task GetAllGuest()
+        {
+            var events = await _eventRepository.GetAllAsync<GuestEntity>( );
+
+            var eventEntities = events.ToList();
+            if (!eventEntities.Any())
+            {
+                _eventOutPort.NotFound("No tiene Guest");
+                return;
+            }
+
+            var eventDtos = events.Adapt<List<EventDto>>();
+
+            _eventOutPort.GetAllAsync(eventDtos);
+        }
    
 }
