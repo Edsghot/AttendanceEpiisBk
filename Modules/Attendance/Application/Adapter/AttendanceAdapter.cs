@@ -143,7 +143,7 @@ public class AttendanceAdapter : IAttendanceInputPort
     if (teacher != null)
     {
         attendance = await _attendanceRepository.GetAsync<AttendanceEntity>(x => x.TeacherId == teacher.IdTeacher);
-        if ( attendance.IsPresent)
+        if ( attendance != null && attendance.IsPresent)
         {
             _attendanceOutPort.Error( "El docente ya se encuentra registrado");
             return;
@@ -152,7 +152,7 @@ public class AttendanceAdapter : IAttendanceInputPort
     else if (student != null)
     {
         attendance = await _attendanceRepository.GetAsync<AttendanceEntity>(x => x.StudentId == student.IdStudent);
-        if (attendance.IsPresent)
+        if (attendance != null && attendance.IsPresent)
         {
             _attendanceOutPort.Error( "El estudiante ya se encuentra registrado");
             return;
