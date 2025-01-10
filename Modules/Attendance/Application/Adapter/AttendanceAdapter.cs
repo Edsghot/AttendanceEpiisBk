@@ -84,7 +84,7 @@ public class AttendanceAdapter : IAttendanceInputPort
             await _attendanceRepository.AddAsync(attendance);
             await _attendanceRepository.SaveChangesAsync();
             
-            _attendanceOutPort.Success("El docente "+teacher.FirstName + " " + teacher.LastName + " ha sido registrado");
+            _attendanceOutPort.Success("El docente "+teacher.FirstName + " " + teacher.LastName + " ha sido registrado","El docente "+teacher.FirstName + " " + teacher.LastName + " ha sido registrado");
             return;
         }else if (data.Role == 1)
         {
@@ -106,7 +106,7 @@ public class AttendanceAdapter : IAttendanceInputPort
             await _attendanceRepository.AddAsync(attendance);
             await _attendanceRepository.SaveChangesAsync();
             
-            _attendanceOutPort.Success("El estudiante "+student.FirstName + " " + student.LastName + " ha sido registrado");
+            _attendanceOutPort.Success(new object(),"El estudiante "+student.FirstName + " " + student.LastName + " ha sido registrado");
             return;
         }
         
@@ -128,7 +128,7 @@ public class AttendanceAdapter : IAttendanceInputPort
         await _attendanceRepository.AddAsync(attendance);
         await _attendanceRepository.SaveChangesAsync();
 
-        _attendanceOutPort.Success("El invitado " + guest.FirstName + " " + guest.LastName + " ha sido registrado");
+        _attendanceOutPort.Success(new object(),"El invitado " + guest.FirstName + " " + guest.LastName + " ha sido registrado");
     
     }
     
@@ -145,7 +145,7 @@ public class AttendanceAdapter : IAttendanceInputPort
         attendance = await _attendanceRepository.GetAsync<AttendanceEntity>(x => x.TeacherId == teacher.IdTeacher);
         if ( attendance.IsPresent)
         {
-            _attendanceOutPort.Success( default!,"El docente ya se encuentra registrado");
+            _attendanceOutPort.Error( "El docente ya se encuentra registrado");
             return;
         }
     }
@@ -154,7 +154,7 @@ public class AttendanceAdapter : IAttendanceInputPort
         attendance = await _attendanceRepository.GetAsync<AttendanceEntity>(x => x.StudentId == student.IdStudent);
         if (attendance.IsPresent)
         {
-            _attendanceOutPort.Success( default!,"El estudiante ya se encuentra registrado");
+            _attendanceOutPort.Error( "El estudiante ya se encuentra registrado");
             return;
         }
     }
