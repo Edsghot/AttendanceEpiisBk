@@ -28,8 +28,11 @@ public class GuestEntityConfiguration : IEntityTypeConfiguration<GuestEntity>
             .IsRequired()
             .HasMaxLength(10);
 
-        builder.HasMany(g => g.Attendances)
-            .WithOne()
-            .HasForeignKey("GuestId").IsRequired(false);        
+        
+        builder.HasMany(e => e.Attendances)
+            .WithOne(a => a.Guest)
+            .HasForeignKey(a => a.GuestId)
+            .OnDelete(DeleteBehavior.Cascade)
+            .IsRequired(false);
     }
 }
