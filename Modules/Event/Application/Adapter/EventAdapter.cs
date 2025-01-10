@@ -129,7 +129,7 @@ public class EventAdapter : IEventInputPort
 
             var eventDtos = guests.Adapt<List<GuestDto>>();
 
-            _eventOutPort.GetAllGuest(eventDtos,"sas");
+            _eventOutPort.GetAllGuest(eventDtos);
         }
    
 }
