@@ -71,22 +71,6 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-// Apply migrations and update database automatically
-using (var scope = app.Services.CreateScope())
-{
-    var dbContext = scope.ServiceProvider.GetRequiredService<MySqlContext>();
-    if (dbContext.Database.GetPendingMigrations().Any())
-    {
-        dbContext.Database.Migrate();
-        Console.WriteLine("Migraciones aplicadas correctamente.");
-    }
-    else
-    {
-        dbContext.Database.EnsureCreated();
-        Console.WriteLine("Base de datos ya estaba actualizada.");
-    }
-}
-
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
