@@ -8,4 +8,6 @@ public record AttendanceDto
     public int EventId { get; set; }
     public int? StudentId { get; set; }
     public int? TeacherId { get; set; }
+    public  bool? IsLate { get; set; }
+    public DateTime? DepartureDate { get; set; }
 }

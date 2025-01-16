@@ -56,10 +56,13 @@ public class AttendanceAdapter : IAttendanceInputPort
 
     public async Task AddParticipant(InsertParticipantDto data)
     {
+        
+        TimeZoneInfo peruTimeZone = TimeZoneInfo.FindSystemTimeZoneById("SA Pacific Standard Time");
+        DateTime peruDateTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, peruTimeZone);
         var attendance = new AttendanceEntity
         {
             IsPresent = false,
-            Date = DateTime.Now,
+            Date = peruDateTime,
             EventId = data.EventId
         };
         
@@ -130,6 +133,9 @@ public class AttendanceAdapter : IAttendanceInputPort
     
     public async Task TakeAttendance(InsertAttendanceDto attendanceDto)
 {
+    
+    TimeZoneInfo peruTimeZone = TimeZoneInfo.FindSystemTimeZoneById("SA Pacific Standard Time");
+    DateTime peruDateTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, peruTimeZone);
     var teacher = await _attendanceRepository.GetAsync<TeacherEntity>(x => x.Dni == attendanceDto.Dni);
     var student = await _attendanceRepository.GetAsync<StudentEntity>(x => x.Dni == attendanceDto.Dni);
     var guest = await _attendanceRepository.GetAsync<GuestEntity>(x => x.Dni == attendanceDto.Dni);
@@ -169,8 +175,10 @@ public class AttendanceAdapter : IAttendanceInputPort
         }
         var resGuest = guest.Adapt<ParticipantDataDto>();
         resGuest.Role = 2;
-        attendance.Date = DateTime.Now;
+        attendance.Date = peruDateTime;
         attendance.EventId = attendanceDto.EventId;
+        attendance.IsLate = attendanceDto.IsLate;
+        attendance.DepartureDate = attendanceDto.DepartureDate;
         attendance.IsPresent = true;
         attendance.GuestId = guest.IdGuest;
         await _attendanceRepository.UpdateAsync(attendance);
@@ -181,7 +189,10 @@ public class AttendanceAdapter : IAttendanceInputPort
 
 
     attendance = new AttendanceEntity();
-    attendance.Date = DateTime.Now;
+    
+    attendance.IsLate = attendanceDto.IsLate;
+    attendance.DepartureDate = attendanceDto.DepartureDate;
+    attendance.Date = peruDateTime;
     attendance.EventId = attendanceDto.EventId;
     attendance.IsPresent = true;
 

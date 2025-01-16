@@ -13,8 +13,8 @@ public class AttendanceEntityConfiguration : IEntityTypeConfiguration<Attendance
             builder.HasKey(a => a.IdAttendance);
 
             builder.Property(a => a.Date);
-
-
+            builder.Property(a => a.DepartureDate);
+            builder.Property(a => a.IsLate);
             builder.Property(a => a.IsPresent);
 
             builder.HasOne(a => a.Teacher)

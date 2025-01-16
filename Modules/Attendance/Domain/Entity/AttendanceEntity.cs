@@ -14,7 +14,8 @@ public record AttendanceEntity
     
     public int? TeacherId { get; set; }
     public int? GuestId { get; set; }
-    
+    public  bool? IsLate { get; set; }
+    public DateTime? DepartureDate { get; set; }
     public TeacherEntity Teacher { get; set; }
     public StudentEntity Student { get; set; }
     public EventEntity Event { get; set; } 
