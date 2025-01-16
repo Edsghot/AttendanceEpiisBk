@@ -167,6 +167,16 @@ public class AttendanceAdapter : IAttendanceInputPort
             _attendanceOutPort.Error("No se encontró el participante, registrelo");
             return;
         }
+        var resGuest = guest.Adapt<ParticipantDataDto>();
+        resGuest.Role = 2;
+        attendance.Date = DateTime.Now;
+        attendance.EventId = attendanceDto.EventId;
+        attendance.IsPresent = true;
+        attendance.GuestId = guest.IdGuest;
+        await _attendanceRepository.UpdateAsync(attendance);
+        _attendanceOutPort.TakeAttendance(resGuest);
+
+        return;
     }
 
 
@@ -191,13 +201,6 @@ public class AttendanceAdapter : IAttendanceInputPort
         await _attendanceRepository.UpdateAsync(attendance);
         _attendanceOutPort.TakeAttendance(resStudent);
     }
-    else if (guest != null)
-    {
-        var resGuest = guest.Adapt<ParticipantDataDto>();
-        resGuest.Role = 2;
-        attendance.GuestId = guest.IdGuest;
-        await _attendanceRepository.UpdateAsync(attendance);
-        _attendanceOutPort.TakeAttendance(resGuest);
-    }
+    
 }
 }
