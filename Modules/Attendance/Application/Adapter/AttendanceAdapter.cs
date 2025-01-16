@@ -82,7 +82,6 @@ public class AttendanceAdapter : IAttendanceInputPort
 
             attendance.TeacherId = teacher.IdTeacher;
             await _attendanceRepository.AddAsync(attendance);
-            await _attendanceRepository.SaveChangesAsync();
             
             _attendanceOutPort.Success("El docente "+teacher.FirstName + " " + teacher.LastName + " ha sido registrado","El docente "+teacher.FirstName + " " + teacher.LastName + " ha sido registrado");
             return;
@@ -104,7 +103,6 @@ public class AttendanceAdapter : IAttendanceInputPort
 
             attendance.StudentId = student.IdStudent;
             await _attendanceRepository.AddAsync(attendance);
-            await _attendanceRepository.SaveChangesAsync();
             
             _attendanceOutPort.Success(new object(),"El estudiante "+student.FirstName + " " + student.LastName + " ha sido registrado");
             return;
@@ -126,7 +124,6 @@ public class AttendanceAdapter : IAttendanceInputPort
 
         attendance.GuestId = guest.IdGuest;
         await _attendanceRepository.AddAsync(attendance);
-        await _attendanceRepository.SaveChangesAsync();
 
         _attendanceOutPort.Success(new object(),"El invitado " + guest.FirstName + " " + guest.LastName + " ha sido registrado");
     

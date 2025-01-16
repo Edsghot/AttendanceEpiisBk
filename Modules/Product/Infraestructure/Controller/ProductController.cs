@@ -70,22 +70,22 @@ public class ProductController : ControllerBase
     [HttpGet("GetAllGuest")]
     public async Task<IActionResult> GetAllGuest()
     {
-        await _eventInputPort.GetAllGuest();
-        var response = _eventOutPort.GetResponse;
+            await _eventInputPort.GetAllGuest();
+            var response = _eventOutPort.GetResponse;
 
-        return Ok(response);
-    }
+            return Ok(response);
+        }
 
-    
-    // PUT api/<ResearchController>/5
-    [HttpPut("{id}")]
-    public void Put(int id, [FromBody] string value)
-    {
-    }
+        
+        // PUT api/<ResearchController>/5
+        [HttpPut("{id}")]
+        public void Put(int id, [FromBody] string value)
+        {
+        }
 
-    // DELETE api/<ResearchController>/5
-    [HttpDelete("{id}")]
-    public void Delete(int id)
-    {
-    }
+        // DELETE api/<ResearchController>/5
+        [HttpDelete("{id}")]
+        public void Delete(int id)
+        {
+        }
 }
