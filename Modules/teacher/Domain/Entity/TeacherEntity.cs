@@ -11,5 +11,6 @@ public record TeacherEntity
     public string Phone { get; set; } = string.Empty;
     public bool Gender { get; set; }
     public string Dni { get; set; } = string.Empty;
+    public DateTime BirthDate { get; set; }
     public ICollection<AttendanceEntity> Attendances { get; set; }
 }

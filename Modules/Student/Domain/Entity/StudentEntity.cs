@@ -13,5 +13,8 @@ public record StudentEntity
     public bool Gender { get; set; }
     public string Dni { get; set; } = string.Empty;
 
+    public string Code { get; set; } = string.Empty;
+    public DateTime BirthDate { get; set; }
+
     public ICollection<AttendanceEntity> Attendances { get; set; } = new List<AttendanceEntity>();
 }

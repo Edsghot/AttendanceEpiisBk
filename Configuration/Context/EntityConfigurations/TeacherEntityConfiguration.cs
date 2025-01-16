@@ -28,6 +28,8 @@ public class TeacherEntityConfiguration : IEntityTypeConfiguration<TeacherEntity
             .IsRequired(false);
 
         builder.Property(t => t.Gender);
+        
+        builder.Property(t => t.BirthDate);
 
         builder.Property(t => t.Dni)
             .IsRequired(false);

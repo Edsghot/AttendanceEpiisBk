@@ -31,6 +31,12 @@ public class StudentEntityConfiguration : IEntityTypeConfiguration<StudentEntity
 
         builder.Property(s => s.Dni)
             .IsRequired();
+        
+        
+        builder.Property(s => s.Code);
+
+        builder.Property(s => s.BirthDate)
+            .IsRequired();
 
         builder.HasMany(s => s.Attendances)
             .WithOne(a => a.Student)

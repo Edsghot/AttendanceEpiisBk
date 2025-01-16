@@ -204,7 +204,7 @@ public class AttendanceAdapter : IAttendanceInputPort
         await _attendanceRepository.UpdateAsync(attendance);
         _attendanceOutPort.TakeAttendance(resTeacher);
     }
-    else if (student != null)
+    else
     {
         var resStudent = student.Adapt<ParticipantDataDto>();
         resStudent.Role = 1;
