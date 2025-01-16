@@ -82,22 +82,21 @@ public class AttendanceAdapter : IAttendanceInputPort
 
             attendance.TeacherId = teacher.IdTeacher;
             await _attendanceRepository.AddAsync(attendance);
-            
-            _attendanceOutPort.Success("El docente "+teacher.FirstName + " " + teacher.LastName + " ha sido registrado","El docente "+teacher.FirstName + " " + teacher.LastName + " ha sido registrado");
+            _attendanceOutPort.Success(new AttendanceDto(), "El docente " + teacher.FirstName + " " + teacher.LastName + " ha sido registrado");
             return;
         }else if (data.Role == 1)
         {
             var student = await _attendanceRepository.GetAsync<StudentEntity>(x => x.IdStudent == data.IdParticipant);
             if(student == null)
             {
-                _attendanceOutPort.Success("Debe registrar al estudiante para agregarlo");
+                _attendanceOutPort.Success(new object(),"Debe registrar al estudiante para agregarlo");
                 return;
             }
 
             var participanS = await _attendanceRepository.GetAsync<AttendanceEntity>(x => x.StudentId == student.IdStudent && x.EventId == data.EventId);
             if(participanS != null)
             {
-                _attendanceOutPort.Success("El estudiante ya se encuentra registrado en evento seleccionado");
+                _attendanceOutPort.Success(new object(),"El estudiante ya se encuentra registrado en evento seleccionado");
                 return;
             }
 
