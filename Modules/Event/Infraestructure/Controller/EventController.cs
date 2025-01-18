@@ -69,7 +69,7 @@ public class EventController : ControllerBase
         return Ok(response);
     }    
     
-    [HttpPost("UpdateGuest")]
+    [HttpPut("UpdateGuest")]
     public async Task<IActionResult> UpdateGuest([FromBody] GuestDto data)
     {
         await _eventInputPort.UpdateGuest(data);
