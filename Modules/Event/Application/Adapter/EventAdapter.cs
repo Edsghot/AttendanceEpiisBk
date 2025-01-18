@@ -154,10 +154,14 @@ public class EventAdapter : IEventInputPort
                 return;
             }
 
-            var guestEntity = data.Adapt(existingGuest);
-            await _eventRepository.UpdateAsync(guestEntity);
+            existingGuest.FirstName = data.FirstName;
+            existingGuest.LastName = data.LastName;
+            existingGuest.Dni = data.Dni;
+            existingGuest.Mail = data.Mail;
+
+            await _eventRepository.UpdateAsync(existingGuest);
             await _eventRepository.SaveChangesAsync();
-            _eventOutPort.Success(guestEntity, "Guest updated successfully.");
+            _eventOutPort.Success(existingGuest, "Guest updated successfully.");
         }     
         
         public async Task DeleteGuest(int id)
