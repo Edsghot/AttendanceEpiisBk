@@ -58,18 +58,21 @@ public class TeacherController : ControllerBase
         var response = _teacherOutPort.GetResponse;
         return Ok(response);
     }
+    [HttpPut("UpdateTeacher")]
+    public async Task<IActionResult> UpdateTeacher([FromBody] TeacherDto teacherDto)
+    {
+        await _teacherInputPort.UpdateTeacher(teacherDto);
+        var response = _teacherOutPort.GetResponse;
+        return Ok(response);
+    }
+    
+    [HttpDelete("DeleteTeacher/{id:int}")]
+    public async Task<IActionResult> DeleteTeacher([FromRoute] int id)
+    {
+        await _teacherInputPort.DeleteTeacher(id);
+        var response = _teacherOutPort.GetResponse;
+        return Ok(response);
+    }
     
     
-
-    // PUT api/<ResearchController>/5
-    [HttpPut("{id}")]
-    public void Put(int id, [FromBody] string value)
-    {
-    }
-
-    // DELETE api/<ResearchController>/5
-    [HttpDelete("{id}")]
-    public void Delete(int id)
-    {
-    }
 }

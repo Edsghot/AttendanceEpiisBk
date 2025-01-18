@@ -116,6 +116,42 @@ public class TeacherAdapter : ITeacherInputPort
         await _teacherRepository.SaveChangesAsync();
         _teacherOutPort.Success(teacherEntity, "Teacher created successfully.");
     }
+    
+    public async Task UpdateTeacher(TeacherDto teacherDto)
+    {
+        var existingTeacher = await _teacherRepository.GetAsync<TeacherEntity>(x => x.IdTeacher == teacherDto.IdTeacher);
+        if (existingTeacher == null)
+        {
+            _teacherOutPort.Error("No se encontró el profesor que quieres actualizar.");
+            return;
+        }
+
+        existingTeacher.FirstName = teacherDto.FirstName;
+        existingTeacher.LastName = teacherDto.LastName;
+        existingTeacher.Mail = teacherDto.Mail;
+        existingTeacher.Phone = teacherDto.Phone;
+        existingTeacher.Gender = teacherDto.Gender;
+        existingTeacher.Dni = teacherDto.Dni;
+        existingTeacher.BirthDate = teacherDto.BirthDate;
+
+        await _teacherRepository.UpdateAsync(existingTeacher);
+        await _teacherRepository.SaveChangesAsync();
+        _teacherOutPort.Success(existingTeacher, "Profesor actualizado satisfactoriamente.");
+    }
+
+    public async Task DeleteTeacher(int id)
+    {
+        var existingTeacher = await _teacherRepository.GetAsync<TeacherEntity>(x => x.IdTeacher == id);
+        if (existingTeacher == null)
+        {
+            _teacherOutPort.Error("No se encontró el docente que quieres eliminar.");
+            return;
+        }
+
+        await _teacherRepository.DeleteAsync(existingTeacher);
+        await _teacherRepository.SaveChangesAsync();
+        _teacherOutPort.SuccessMessage("Docente eliminado exitosamente.");
+    }
   
     
 }
