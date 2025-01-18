@@ -136,7 +136,7 @@ public class EventAdapter : IEventInputPort
             var eventEntities = guests.ToList();
             if (!eventEntities.Any())
             {
-                _eventOutPort.NotFound("No tiene Guest");
+                _eventOutPort.NotFound("No se encontro invitados");
                 return;
             }
 
