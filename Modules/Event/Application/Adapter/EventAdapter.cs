@@ -122,6 +122,21 @@ public class EventAdapter : IEventInputPort
                 _eventOutPort.Error("Ya existe un invitado (  "+existingDto.FirstName+" ) creado con este DNI");
                 return;
             }
+            
+            
+            var existingTeacher = await _eventRepository.GetAsync<TeacherEntity>(x => x.Dni == data.Dni);
+            if (existingTeacher != null)
+            {
+                _eventOutPort.Error("Ya fue registrado como docente");
+                return;
+            }
+        
+            var existingStudent= await _eventRepository.GetAsync<StudentEntity>(x => x.Dni == data.Dni);
+            if (existingStudent != null)
+            {
+                _eventOutPort.Error(" ya fue registrado como estudiante");
+                return;
+            }
     
             var guestEntity = data.Adapt<GuestEntity>();
             await _eventRepository.AddAsync(guestEntity);

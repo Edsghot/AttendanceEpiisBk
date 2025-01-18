@@ -102,6 +102,20 @@ public class TeacherAdapter : ITeacherInputPort
             return;
         }
 
+        var existingStudent = await _teacherRepository.GetAsync<StudentEntity>(x => x.Dni == teacherDto.Dni);
+        if (existingStudent != null)
+        {
+            _teacherOutPort.Error("Ya fue registrado como estudiante");
+            return;
+        }
+        
+        var existingGuest = await _teacherRepository.GetAsync<GuestEntity>(x => x.Dni == teacherDto.Dni);
+        if (existingGuest != null)
+        {
+            _teacherOutPort.Error(" ya fue registrado como invitado");
+            return;
+        }
+        
         var result = await _validator.ValidateAsync(teacherDto);
         if (!result.IsValid)
         {
@@ -116,6 +130,8 @@ public class TeacherAdapter : ITeacherInputPort
         await _teacherRepository.SaveChangesAsync();
         _teacherOutPort.Success(teacherEntity, "Teacher created successfully.");
     }
+    
+    
     
     public async Task UpdateTeacher(TeacherDto teacherDto)
     {

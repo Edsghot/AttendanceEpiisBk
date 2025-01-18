@@ -61,6 +61,19 @@ public class StudentAdapter : IStudentInputPort
         _studentOutPort.Error("El estudiante ya esta registrado");
         return;
     }
+    var existingTeacher = await _studentRepository.GetAsync<TeacherEntity>(x => x.Dni == data.Dni);
+    if (existingTeacher != null)
+    {
+        _studentOutPort.Error("Ya fue registrado como docente");
+        return;
+    }
+        
+    var existingGuest = await _studentRepository.GetAsync<GuestEntity>(x => x.Dni == data.Dni);
+    if (existingGuest != null)
+    {
+        _studentOutPort.Error(" ya fue registrado como invitado");
+        return;
+    }
 
     var studentEntity = data.Adapt<StudentEntity>();
     await _studentRepository.AddAsync(studentEntity);
