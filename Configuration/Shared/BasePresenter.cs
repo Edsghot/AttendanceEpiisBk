@@ -6,7 +6,7 @@ public class BasePresenter<T> : IBasePresenter<T>
 {
     public virtual ResponseDto<T>? GetResponse { get; set; }
 
-    public void Success(T data, string message = "Data retrieved successfully")
+    public void Success(T data, string message = "Operacion exitosa!")
     {
         GetResponse = new ResponseDto<T>
         {
@@ -16,7 +16,16 @@ public class BasePresenter<T> : IBasePresenter<T>
         };
     }
 
-    public void NotFound(string message = "Data not found")
+    public void SuccessMessage(string message = "Operacion exitosa")
+    {
+        GetResponse = new ResponseDto<T>
+        {
+            Success = true,
+            Message = message,
+            Data = default
+        };
+    }
+    public void NotFound(string message = "No se encontro la data")
 {
     GetResponse = new ResponseDto<T>
     {

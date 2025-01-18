@@ -2,7 +2,7 @@
 
 namespace AttendanceEpiisBk.Model.Dtos.Guest;
 
-public class GuestDto
+public record GuestDto
 {
     public int? IdGuest { get; set; }
     public string FirstName { get; set; } = string.Empty;

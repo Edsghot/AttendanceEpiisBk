@@ -126,7 +126,7 @@ public class EventAdapter : IEventInputPort
             var guestEntity = data.Adapt<GuestEntity>();
             await _eventRepository.AddAsync(guestEntity);
             await _eventRepository.SaveChangesAsync();
-            _eventOutPort.Success(guestEntity, "Teacher created successfully.");
+            _eventOutPort.Success(guestEntity, "Invitado creado satisfactoriamente.");
         }
       
         public async Task GetAllGuest()
@@ -143,6 +143,35 @@ public class EventAdapter : IEventInputPort
             var eventDtos = guests.Adapt<List<GuestDto>>();
 
             _eventOutPort.GetAllGuest(eventDtos);
+        }
+        
+        public async Task UpdateGuest(GuestDto data)
+        {
+            var existingGuest = await _eventRepository.GetAsync<GuestEntity>(x => x.IdGuest == data.IdGuest);
+            if (existingGuest == null)
+            {
+                _eventOutPort.NotFound("No se encontro el invitado que quieres actualizar");
+                return;
+            }
+
+            var guestEntity = data.Adapt(existingGuest);
+            await _eventRepository.UpdateAsync(guestEntity);
+            await _eventRepository.SaveChangesAsync();
+            _eventOutPort.Success(guestEntity, "Guest updated successfully.");
+        }     
+        
+        public async Task DeleteGuest(int id)
+        {
+            var existingGuest = await _eventRepository.GetAsync<GuestEntity>(x => x.IdGuest == id);
+            if (existingGuest == null)
+            {
+                _eventOutPort.Error("No se encontró el invitado que quieres eliminar.");
+                return;
+            }
+
+            await _eventRepository.DeleteAsync(existingGuest);
+            await _eventRepository.SaveChangesAsync();
+            _eventOutPort.SuccessMessage("Invitado eliminado exitosamente.");
         }
    
 }

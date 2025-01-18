@@ -59,6 +59,8 @@ public class EventController : ControllerBase
         return Ok(_eventOutPort.GetResponse);
     }
     
+    // )))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))00
+    
     [HttpPost("CreateGuest")]
     public async Task<IActionResult> CreateGuest([FromBody] GuestDto data)
     {
@@ -66,6 +68,23 @@ public class EventController : ControllerBase
         var response = _eventOutPort.GetResponse;
         return Ok(response);
     }    
+    
+    [HttpPost("UpdateGuest")]
+    public async Task<IActionResult> UpdateGuest([FromBody] GuestDto data)
+    {
+        await _eventInputPort.UpdateGuest(data);
+        var response = _eventOutPort.GetResponse;
+        return Ok(response);
+    }
+    
+    [HttpDelete("DeleteGuest/{id:int}")]
+    public async Task<IActionResult> DeleteGuest([FromRoute] int id)
+    {
+        await _eventInputPort.DeleteGuest(id);
+        var response = _eventOutPort.GetResponse;
+        return Ok(response);
+    }
+    
     
     [HttpGet("GetAllGuest")]
     public async Task<IActionResult> GetAllGuest()

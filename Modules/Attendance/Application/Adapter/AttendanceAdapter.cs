@@ -56,9 +56,8 @@ public class AttendanceAdapter : IAttendanceInputPort
 
     public async Task AddParticipant(InsertParticipantDto data)
     {
-        
-        TimeZoneInfo peruTimeZone = TimeZoneInfo.FindSystemTimeZoneById("SA Pacific Standard Time");
-        DateTime peruDateTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, peruTimeZone);
+        var peruTimeZone = TimeZoneInfo.FindSystemTimeZoneById("SA Pacific Standard Time");
+        var peruDateTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, peruTimeZone);
         var attendance = new AttendanceEntity
         {
             IsPresent = false,

@@ -12,5 +12,7 @@ public interface IEventInputPort
     Task GetParticipantsAsync(int eventId);
     Task CreateGuest(GuestDto data);
     Task GetAllGuest();
+    Task DeleteGuest(int id);
+    Task UpdateGuest(GuestDto data);    
 
 }
