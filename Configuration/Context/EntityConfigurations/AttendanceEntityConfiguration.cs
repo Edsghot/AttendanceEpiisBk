@@ -16,6 +16,7 @@ public class AttendanceEntityConfiguration : IEntityTypeConfiguration<Attendance
             builder.Property(a => a.DepartureDate);
             builder.Property(a => a.IsLate);
             builder.Property(a => a.IsPresent);
+            builder.Property(a => a.IsExit);
 
             builder.HasOne(a => a.Teacher)
                 .WithMany(t => t.Attendances)
