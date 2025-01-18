@@ -98,7 +98,7 @@ public class TeacherAdapter : ITeacherInputPort
         var existingTeacher = await _teacherRepository.GetAsync<TeacherEntity>(x => x.Dni == teacherDto.Dni);
         if (existingTeacher != null)
         {
-            _teacherOutPort.Error("A teacher with the same DNI already exists.");
+            _teacherOutPort.Error("El docente ya fue registrado!");
             return;
         }
 
