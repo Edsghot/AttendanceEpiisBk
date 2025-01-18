@@ -1,6 +1,8 @@
 ﻿using AttendanceEpiisBk.Model.Dtos.Attedance;
 using AttendanceEpiisBk.Model.Dtos.Event;
+using AttendanceEpiisBk.Model.Dtos.Guest;
 using AttendanceEpiisBk.Model.Dtos.Participant;
+using AttendanceEpiisBk.Model.Dtos.Student;
 using Mapster;
 using Microsoft.EntityFrameworkCore;
 using AttendanceEpiisBk.Model.Dtos.Teacher;
@@ -211,6 +213,63 @@ public class AttendanceAdapter : IAttendanceInputPort
         await _attendanceRepository.UpdateAsync(attendance);
         _attendanceOutPort.TakeAttendance(resStudent);
     }
-    
+}
+
+public async Task ReportByEventId(int id)
+{
+    var resEvent = await _attendanceRepository.GetAsync<EventEntity>(x => x.IdEvent == id);
+
+    if (resEvent is null)
+    {
+        _attendanceOutPort.Error("No se encontró el evento");
+        return;
+    }
+
+    var attendances = await _attendanceRepository.GetAllAsync<AttendanceEntity>(x => x.Where(e => e.EventId == resEvent.IdEvent));
+    var attendanceList = attendances.ToList();
+
+    var report = new ReportAttendanceEventDto
+    {
+        Event = resEvent.Adapt<EventDto>(),
+        ListStudentAttendance = new List<StudentAttendanceDto>(),
+        ListTeacherAttendance = new List<TeacherAttendanceDto>(),
+        ListGuestAttendancee = new List<GuestAttendanceDto>()
+    };
+
+    foreach (var attendance in attendanceList)
+    {
+        if (attendance.StudentId.HasValue)
+        {
+            var student = await _attendanceRepository.GetAsync<StudentEntity>(x => x.IdStudent == attendance.StudentId.Value);
+            if (student != null)
+            {
+                var studentAttendance = student.Adapt<StudentAttendanceDto>();
+                studentAttendance.Attendance = attendance.Adapt<AttendanceDto>();
+                report.ListStudentAttendance.Add(studentAttendance);
+            }
+        }
+        else if (attendance.TeacherId.HasValue)
+        {
+            var teacher = await _attendanceRepository.GetAsync<TeacherEntity>(x => x.IdTeacher == attendance.TeacherId.Value);
+            if (teacher != null)
+            {
+                var teacherAttendance = teacher.Adapt<TeacherAttendanceDto>();
+                teacherAttendance.Attendance = attendance.Adapt<AttendanceDto>();
+                report.ListTeacherAttendance.Add(teacherAttendance);
+            }
+        }
+        else if (attendance.GuestId.HasValue)
+        {
+            var guest = await _attendanceRepository.GetAsync<GuestEntity>(x => x.IdGuest == attendance.GuestId.Value);
+            if (guest != null)
+            {
+                var guestAttendance = guest.Adapt<GuestAttendanceDto>();
+                guestAttendance.Attendance = attendance.Adapt<AttendanceDto>();
+                report.ListGuestAttendancee.Add(guestAttendance);
+            }
+        }
+    }
+
+    _attendanceOutPort.Success(report, "Reporte generado exitosamente.");
 }
 }

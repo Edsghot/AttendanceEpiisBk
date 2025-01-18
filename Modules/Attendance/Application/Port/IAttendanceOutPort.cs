@@ -11,4 +11,5 @@ public interface IAttendanceOutPort : IBasePresenter<object>
     void GetAllAsync(IEnumerable<AttendanceDto> data);
     void GetById(AttendanceDto teacher);
     void TakeAttendance(ParticipantDataDto data);
+  
 }

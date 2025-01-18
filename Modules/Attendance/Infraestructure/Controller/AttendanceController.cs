@@ -61,6 +61,13 @@ public class AttendanceController : ControllerBase
         return Ok(_attendanceOutPort.GetResponse); 
     }
 
+    [HttpGet("ReportAttendanceByEvent/{id:int}")]
+    public async Task<IActionResult> ReportAttendanceByEvent([FromRoute] int id)
+    {
+        await _attendanceInputPort.ReportByEventId(id);
+        return Ok(_attendanceOutPort.GetResponse); 
+    }
+    
     // PUT api/<ResearchController>/5
     [HttpPut("{id}")]
     public void Put(int id, [FromBody] string value)
