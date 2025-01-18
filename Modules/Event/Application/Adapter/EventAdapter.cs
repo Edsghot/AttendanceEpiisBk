@@ -150,7 +150,7 @@ public class EventAdapter : IEventInputPort
             var existingGuest = await _eventRepository.GetAsync<GuestEntity>(x => x.IdGuest == data.IdGuest);
             if (existingGuest == null)
             {
-                _eventOutPort.NotFound("No se encontro el invitado que quieres actualizar");
+                _eventOutPort.Error("No se encontro el invitado que quieres actualizar");
                 return;
             }
 
