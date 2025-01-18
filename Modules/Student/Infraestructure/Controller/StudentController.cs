@@ -42,7 +42,22 @@ public class StudentController : ControllerBase
         var response = _studentOutPort.GetResponse;
         return Ok(response);
     }
-
+    [HttpPut("UpdateStudent")]
+    public async Task<IActionResult> UpdateStudent([FromBody] StudentDto studentDto)
+    {
+        await _studentInputPort.UpdateStudent(studentDto);
+        var response = _studentOutPort.GetResponse;
+        return Ok(response);
+    }
+    
+    [HttpDelete("DeleteStudent/{id:int}")]
+    public async Task<IActionResult> DeleteStudent([FromRoute] int id)
+    {
+        await _studentInputPort.DeleteStudent(id);
+        var response = _studentOutPort.GetResponse;
+        return Ok(response);
+    }
+    
     // GET api/<ResearchController>/5
     [HttpGet("{id}")]
     public string Get(int id)
@@ -56,15 +71,4 @@ public class StudentController : ControllerBase
     {
     }
 
-    // PUT api/<ResearchController>/5
-    [HttpPut("{id}")]
-    public void Put(int id, [FromBody] string value)
-    {
-    }
-
-    // DELETE api/<ResearchController>/5
-    [HttpDelete("{id}")]
-    public void Delete(int id)
-    {
-    }
 }

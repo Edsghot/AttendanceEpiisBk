@@ -67,4 +67,40 @@ public class StudentAdapter : IStudentInputPort
     await _studentRepository.SaveChangesAsync();
     _studentOutPort.Success(studentEntity, "Estudiante creado correctamente");
 }
+  
+public async Task UpdateStudent(StudentDto studentDto)
+{
+    var existingStudent = await _studentRepository.GetAsync<StudentEntity>(x => x.IdStudent == studentDto.IdStudent);
+    if (existingStudent == null)
+    {
+        _studentOutPort.Error("No se encontró el estudiante que quieres actualizar.");
+        return;
+    }
+
+    existingStudent.FirstName = studentDto.FirstName;
+    existingStudent.LastName = studentDto.LastName;
+    existingStudent.Mail = studentDto.Mail;
+    existingStudent.Phone = studentDto.Phone;
+    existingStudent.Gender = studentDto.Gender;
+    existingStudent.Dni = studentDto.Dni;
+    existingStudent.BirthDate = studentDto.BirthDate;
+
+    await _studentRepository.UpdateAsync(existingStudent);
+    await _studentRepository.SaveChangesAsync();
+    _studentOutPort.Success(existingStudent, "Estudiante actualizado satisfactoriamente.");
+}
+
+public async Task DeleteStudent(int id)
+{
+    var existingStudent = await _studentRepository.GetAsync<StudentEntity>(x => x.IdStudent == id);
+    if (existingStudent == null)
+    {
+        _studentOutPort.Error("No se encontró el estudiante que quieres eliminar.");
+        return;
+    }
+
+    await _studentRepository.DeleteAsync(existingStudent);
+    await _studentRepository.SaveChangesAsync();
+    _studentOutPort.SuccessMessage("Estudiante eliminado exitosamente.");
+}
 }

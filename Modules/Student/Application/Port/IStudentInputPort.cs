@@ -8,4 +8,6 @@ public interface IStudentInputPort
     Task GetAllAsync();
     Task GetById(int id);
     Task CreateStudent(StudentDto data);
+    Task UpdateStudent(StudentDto studentDto);
+    Task DeleteStudent(int id);
 }
