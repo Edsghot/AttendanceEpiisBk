@@ -230,7 +230,7 @@ public async Task ReportByEventId(int id)
 
     var report = new ReportAttendanceEventDto
     {
-        Event = resEvent.Adapt<EventDto>(),
+        Event = resEvent.Adapt<EventAttendanceDto>(),
         ListStudentAttendance = new List<StudentAttendanceDto>(),
         ListTeacherAttendance = new List<TeacherAttendanceDto>(),
         ListGuestAttendancee = new List<GuestAttendanceDto>()

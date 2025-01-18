@@ -7,7 +7,7 @@ namespace AttendanceEpiisBk.Model.Dtos.Attedance;
 
 public class ReportAttendanceEventDto
 {
-    public EventDto? Event { get; set; }
+    public EventAttendanceDto? Event { get; set; }
     public List<StudentAttendanceDto> ListStudentAttendance{ get; set; }
     public List<TeacherAttendanceDto>? ListTeacherAttendance { get; set; }        
     public List<GuestAttendanceDto>? ListGuestAttendancee { get; set; }        
