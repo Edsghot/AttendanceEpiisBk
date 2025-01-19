@@ -133,15 +133,19 @@ public class AttendanceAdapter : IAttendanceInputPort
     }
     
     public async Task TakeAttendance(InsertAttendanceDto attendanceDto)
-{
-    
-    TimeZoneInfo peruTimeZone = TimeZoneInfo.FindSystemTimeZoneById("SA Pacific Standard Time");
-    DateTime peruDateTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, peruTimeZone);
+    {
+        if (attendanceDto.Band == false)
+        {
+            await TakeAttendanceExit(attendanceDto);
+            return;
+        }
+    var peruTimeZone = TimeZoneInfo.FindSystemTimeZoneById("SA Pacific Standard Time");
+    var peruDateTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, peruTimeZone);
     var teacher = await _attendanceRepository.GetAsync<TeacherEntity>(x => x.Dni == attendanceDto.Dni);
     var student = await _attendanceRepository.GetAsync<StudentEntity>(x => x.Dni == attendanceDto.Dni);
     var guest = await _attendanceRepository.GetAsync<GuestEntity>(x => x.Dni == attendanceDto.Dni);
 
-    AttendanceEntity attendance = new AttendanceEntity();
+    var attendance = new AttendanceEntity();
 
     if (teacher != null)
     {
@@ -179,7 +183,6 @@ public class AttendanceAdapter : IAttendanceInputPort
         attendance.Date = peruDateTime;
         attendance.EventId = attendanceDto.EventId;
         attendance.IsLate = attendanceDto.IsLate;
-        attendance.DepartureDate = attendanceDto.DepartureDate;
         attendance.IsPresent = true;
         attendance.GuestId = guest.IdGuest;
         await _attendanceRepository.UpdateAsync(attendance);
@@ -192,7 +195,6 @@ public class AttendanceAdapter : IAttendanceInputPort
     attendance = new AttendanceEntity();
     
     attendance.IsLate = attendanceDto.IsLate;
-    attendance.DepartureDate = attendanceDto.DepartureDate;
     attendance.Date = peruDateTime;
     attendance.EventId = attendanceDto.EventId;
     attendance.IsPresent = true;
@@ -215,6 +217,77 @@ public class AttendanceAdapter : IAttendanceInputPort
     }
 }
 
+    public async Task TakeAttendanceExit(InsertAttendanceDto attendanceDto)
+    {
+    
+    var peruTimeZone = TimeZoneInfo.FindSystemTimeZoneById("SA Pacific Standard Time");
+    var peruDateTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, peruTimeZone);
+    var teacher = await _attendanceRepository.GetAsync<TeacherEntity>(x => x.Dni == attendanceDto.Dni);
+    var student = await _attendanceRepository.GetAsync<StudentEntity>(x => x.Dni == attendanceDto.Dni);
+    var guest = await _attendanceRepository.GetAsync<GuestEntity>(x => x.Dni == attendanceDto.Dni);
+
+    var attendance = new AttendanceEntity();
+
+    if (teacher != null)
+    {
+        attendance = await _attendanceRepository.GetAsync<AttendanceEntity>(x => x.TeacherId == teacher.IdTeacher);
+        if ( attendance != null && attendance.IsExit)
+        {
+            _attendanceOutPort.Success(new object(), "La asistencia de salida ya fue tomada!");
+            return;
+        }
+        attendance.IsLate = attendanceDto.IsLate;
+        attendance.DepartureDate = peruDateTime;
+        attendance.IsExit = true;
+        var resTeacher = teacher.Adapt<ParticipantDataDto>();
+        resTeacher.Role = 0;
+        attendance.TeacherId = teacher.IdTeacher;
+        await _attendanceRepository.UpdateAsync(attendance);
+        _attendanceOutPort.TakeAttendance(resTeacher);
+        return;
+    }
+    else if (student != null)
+    {
+        attendance = await _attendanceRepository.GetAsync<AttendanceEntity>(x => x.StudentId == student.IdStudent);
+        if ( attendance != null && attendance.IsExit)
+        {
+            _attendanceOutPort.Success(new object(), "La asistencia de salida ya fue tomada!");
+            return;
+        }
+        attendance.DepartureDate = peruDateTime;
+        attendance.Date = peruDateTime;
+        attendance.IsExit = true;
+        attendance.EventId = attendanceDto.EventId;
+        attendance.IsPresent = true;
+        var resTeacher = student.Adapt<ParticipantDataDto>();
+        resTeacher.Role = 1;
+        attendance.StudentId = student.IdStudent;
+        await _attendanceRepository.UpdateAsync(attendance);
+        await _attendanceRepository.UpdateAsync(attendance);
+        _attendanceOutPort.TakeAttendance(resTeacher);
+        return;
+    }
+    else if (guest != null)
+    {
+        attendance = await _attendanceRepository.GetAsync<AttendanceEntity>(x => x.GuestId == guest.IdGuest);
+        if (attendance != null && attendance.IsExit)
+        {
+            _attendanceOutPort.Success(new object(), "La asistencia de salida ya fue tomada!");
+            return;
+        }
+
+        attendance.DepartureDate = peruDateTime;
+        attendance.IsExit = true;
+        var resTeacher = guest.Adapt<ParticipantDataDto>();
+        resTeacher.Role = 2;
+        attendance.GuestId = guest.IdGuest;
+        await _attendanceRepository.UpdateAsync(attendance);
+        await _attendanceRepository.UpdateAsync(attendance);
+        _attendanceOutPort.TakeAttendance(resTeacher);
+        return;
+    }
+    }
+    
 public async Task ReportByEventId(int id)
 {
     var resEvent = await _attendanceRepository.GetAsync<EventEntity>(x => x.IdEvent == id);
