@@ -32,7 +32,7 @@ public class AttendanceAdapter : IAttendanceInputPort
             x => x.IdAttendance == id);
         if (attendances == null)
         {
-            _attendanceOutPort.NotFound("No attendance found.");
+            _attendanceOutPort.NotFound("No se encontro asistencias");
             return;
         }
 
@@ -47,7 +47,7 @@ public class AttendanceAdapter : IAttendanceInputPort
         var attendanceEntities = attendances.ToList();
         if (!attendanceEntities.Any())
         {
-            _attendanceOutPort.NotFound("No attendance found.");
+            _attendanceOutPort.NotFound("no se encontro asistencias");
             return;
         }
 
@@ -149,7 +149,7 @@ public class AttendanceAdapter : IAttendanceInputPort
 
     if (teacher != null)
     {
-        attendance = await _attendanceRepository.GetAsync<AttendanceEntity>(x => x.TeacherId == teacher.IdTeacher);
+        attendance = await _attendanceRepository.GetAsync<AttendanceEntity>(x => x.TeacherId == teacher.IdTeacher && x.EventId == attendanceDto.EventId);
         if ( attendance != null && attendance.IsPresent)
         {
             _attendanceOutPort.Success(new object(), "La asistencia ya fue tomada!");
@@ -158,7 +158,7 @@ public class AttendanceAdapter : IAttendanceInputPort
     }
     else if (student != null)
     {
-        attendance = await _attendanceRepository.GetAsync<AttendanceEntity>(x => x.StudentId == student.IdStudent);
+        attendance = await _attendanceRepository.GetAsync<AttendanceEntity>(x => x.StudentId == student.IdStudent&& x.EventId == attendanceDto.EventId);
         if (attendance != null && attendance.IsPresent)
         {
             _attendanceOutPort.Success(new object(), "La asistencia ya fue tomada!");
@@ -167,7 +167,7 @@ public class AttendanceAdapter : IAttendanceInputPort
     }
     else if (guest != null)
     {
-        attendance = await _attendanceRepository.GetAsync<AttendanceEntity>(x => x.GuestId == guest.IdGuest);
+        attendance = await _attendanceRepository.GetAsync<AttendanceEntity>(x => x.GuestId == guest.IdGuest&& x.EventId == attendanceDto.EventId);
         if (attendance != null && attendance.IsPresent)
         {
             _attendanceOutPort.Success(new object(), "La asistencia ya fue tomada!");
@@ -230,7 +230,7 @@ public class AttendanceAdapter : IAttendanceInputPort
 
     if (teacher != null)
     {
-        attendance = await _attendanceRepository.GetAsync<AttendanceEntity>(x => x.TeacherId == teacher.IdTeacher);
+        attendance = await _attendanceRepository.GetAsync<AttendanceEntity>(x => x.TeacherId == teacher.IdTeacher&& x.EventId == attendanceDto.EventId);
         if ( attendance != null && attendance.IsExit)
         {
             _attendanceOutPort.Success(new object(), "La asistencia de salida ya fue tomada!");
@@ -247,7 +247,7 @@ public class AttendanceAdapter : IAttendanceInputPort
     }
     else if (student != null)
     {
-        attendance = await _attendanceRepository.GetAsync<AttendanceEntity>(x => x.StudentId == student.IdStudent);
+        attendance = await _attendanceRepository.GetAsync<AttendanceEntity>(x => x.StudentId == student.IdStudent&& x.EventId == attendanceDto.EventId);
         if ( attendance != null && attendance.IsExit)
         {
             _attendanceOutPort.Success(new object(), "La asistencia de salida ya fue tomada!");
@@ -268,7 +268,7 @@ public class AttendanceAdapter : IAttendanceInputPort
     }
     else if (guest != null)
     {
-        attendance = await _attendanceRepository.GetAsync<AttendanceEntity>(x => x.GuestId == guest.IdGuest);
+        attendance = await _attendanceRepository.GetAsync<AttendanceEntity>(x => x.GuestId == guest.IdGuest&& x.EventId == attendanceDto.EventId);
         if (attendance != null && attendance.IsExit)
         {
             _attendanceOutPort.Success(new object(), "La asistencia de salida ya fue tomada!");

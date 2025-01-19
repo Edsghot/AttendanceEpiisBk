@@ -13,6 +13,7 @@ public interface IEventInputPort
     Task CreateGuest(GuestDto data);
     Task GetAllGuest();
     Task DeleteGuest(int id);
-    Task UpdateGuest(GuestDto data);    
+    Task UpdateGuest(GuestDto data);
+    Task CloseEvent(int idEvent);
 
 }

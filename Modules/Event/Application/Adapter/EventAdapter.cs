@@ -29,7 +29,7 @@ public class EventAdapter : IEventInputPort
             x => x.IdEvent == id);
         if (events == null)
         {
-            _eventOutPort.NotFound("No event found.");
+            _eventOutPort.NotFound("No se encontro eventos");
             return;
         }
 
@@ -56,6 +56,7 @@ public class EventAdapter : IEventInputPort
     public async Task AddEventAsync(EventDto eventDto)
     {
         var eventEntity = eventDto.Adapt<EventEntity>();
+        eventEntity.IsOpen = true;
         await _eventRepository.AddAsync(eventEntity);
         await _eventRepository.SaveChangesAsync();
         _eventOutPort.EventAdded();
@@ -177,7 +178,9 @@ public class EventAdapter : IEventInputPort
             await _eventRepository.UpdateAsync(existingGuest);
             await _eventRepository.SaveChangesAsync();
             _eventOutPort.Success(existingGuest, "Guest updated successfully.");
-        }     
+        } 
+        
+       
         
         public async Task DeleteGuest(int id)
         {
@@ -193,4 +196,17 @@ public class EventAdapter : IEventInputPort
             _eventOutPort.SuccessMessage("Invitado eliminado exitosamente.");
         }
    
+        public async Task CloseEvent(int idEvent)
+        {
+            var eventData = await _eventRepository.GetAsync<EventEntity>(x => x.IdEvent == idEvent);
+            if (eventData == null)
+            {
+                _eventOutPort.Error("No se encontro el invitado que quieres actualizar");
+                return;
+            }
+            eventData.IsOpen = false;
+            await _eventRepository.UpdateAsync(eventData);
+            await _eventRepository.SaveChangesAsync();
+            _eventOutPort.SuccessMessage( "Evento cerrado con exito");
+        }     
 }

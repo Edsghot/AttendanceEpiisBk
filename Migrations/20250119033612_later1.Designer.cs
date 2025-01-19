@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AttendanceEpiisBk.Migrations
 {
     [DbContext(typeof(MySqlContext))]
-    [Migration("20250116221610_Initial4")]
-    partial class Initial4
+    [Migration("20250119033612_later1")]
+    partial class later1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -38,6 +38,9 @@ namespace AttendanceEpiisBk.Migrations
 
                     b.Property<int?>("GuestId")
                         .HasColumnType("int");
+
+                    b.Property<bool>("IsExit")
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<bool?>("IsLate")
                         .HasColumnType("tinyint(1)");
@@ -92,6 +95,9 @@ namespace AttendanceEpiisBk.Migrations
 
                     b.Property<int>("EventTypeId")
                         .HasColumnType("int");
+
+                    b.Property<bool>("IsOpen")
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<bool>("IsPrivate")
                         .HasColumnType("tinyint(1)");
@@ -150,6 +156,13 @@ namespace AttendanceEpiisBk.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("BirthDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<string>("Dni")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -184,6 +197,9 @@ namespace AttendanceEpiisBk.Migrations
                     b.Property<int>("IdTeacher")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    b.Property<DateTime>("BirthDate")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("Dni")
                         .HasColumnType("longtext");

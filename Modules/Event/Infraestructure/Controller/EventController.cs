@@ -59,6 +59,14 @@ public class EventController : ControllerBase
         return Ok(_eventOutPort.GetResponse);
     }
     
+    [HttpDelete("CloseEvent{id:int}")]
+    public async Task<IActionResult> CloseEvent([FromRoute]int id)
+    {
+        await _eventInputPort.CloseEvent(id);
+        var response = _eventOutPort.GetResponse;
+        return Ok(response);
+    } 
+    
     // )))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))00
     
     [HttpPost("CreateGuest")]

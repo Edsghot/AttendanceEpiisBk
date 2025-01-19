@@ -29,7 +29,7 @@ public class StudentAdapter : IStudentInputPort
             x => x.IdStudent == id);
         if (students == null)
         {
-            _studentOutPort.NotFound("No student found.");
+            _studentOutPort.NotFound("No se encontro estudiantes");
             return;
         }
 
@@ -44,7 +44,7 @@ public class StudentAdapter : IStudentInputPort
         var studentEntities = students.ToList();
         if (!studentEntities.Any())
         {
-            _studentOutPort.NotFound("No student found.");
+            _studentOutPort.NotFound("no se encontro el estudiante");
             return;
         }
 

@@ -34,7 +34,7 @@ public class TeacherAdapter : ITeacherInputPort
             x => x.IdTeacher == id);
         if (teachers == null)
         {
-            _teacherOutPort.NotFound("No teacher found.");
+            _teacherOutPort.NotFound("No se encontro docentes.");
             return;
         }
 
@@ -49,7 +49,7 @@ public class TeacherAdapter : ITeacherInputPort
         var teacherEntities = teachers.ToList();
         if (!teacherEntities.Any())
         {
-            _teacherOutPort.NotFound("No teacher found.");
+            _teacherOutPort.NotFound("no se encontro docentes");
             return;
         }
 
@@ -72,7 +72,7 @@ public class TeacherAdapter : ITeacherInputPort
             
             if (guests == null)
             {
-                _teacherOutPort.NotFound("No participant found.");
+                _teacherOutPort.NotFound("No se encontro el participante");
                 return;
             }
             
@@ -128,7 +128,7 @@ public class TeacherAdapter : ITeacherInputPort
         var teacherEntity = teacherDto.Adapt<TeacherEntity>();
         await _teacherRepository.AddAsync(teacherEntity);
         await _teacherRepository.SaveChangesAsync();
-        _teacherOutPort.Success(teacherEntity, "Teacher created successfully.");
+        _teacherOutPort.Success(teacherEntity, "El docente fue creado con exito");
     }
     
     
@@ -152,7 +152,7 @@ public class TeacherAdapter : ITeacherInputPort
 
         await _teacherRepository.UpdateAsync(existingTeacher);
         await _teacherRepository.SaveChangesAsync();
-        _teacherOutPort.Success(existingTeacher, "Profesor actualizado satisfactoriamente.");
+        _teacherOutPort.Success(existingTeacher, "docente actualizado con exito.");
     }
 
     public async Task DeleteTeacher(int id)
@@ -166,7 +166,7 @@ public class TeacherAdapter : ITeacherInputPort
 
         await _teacherRepository.DeleteAsync(existingTeacher);
         await _teacherRepository.SaveChangesAsync();
-        _teacherOutPort.SuccessMessage("Docente eliminado exitosamente.");
+        _teacherOutPort.SuccessMessage("Docente eliminado con exito.");
     }
   
     

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace AttendanceEpiisBk.Migrations
 {
-    public partial class Initial2 : Migration
+    public partial class later1 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -34,7 +34,8 @@ namespace AttendanceEpiisBk.Migrations
                     EventTypeId = table.Column<int>(type: "int", nullable: false),
                     AllTeacher = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     AllStudent = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    AllGuest = table.Column<bool>(type: "tinyint(1)", nullable: false)
+                    AllGuest = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    IsOpen = table.Column<bool>(type: "tinyint(1)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -79,7 +80,10 @@ namespace AttendanceEpiisBk.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Gender = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     Dni = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Code = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    BirthDate = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -103,7 +107,8 @@ namespace AttendanceEpiisBk.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Gender = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     Dni = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    BirthDate = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -119,10 +124,13 @@ namespace AttendanceEpiisBk.Migrations
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Date = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     IsPresent = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    IsExit = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     EventId = table.Column<int>(type: "int", nullable: false),
                     StudentId = table.Column<int>(type: "int", nullable: true),
                     TeacherId = table.Column<int>(type: "int", nullable: true),
-                    GuestId = table.Column<int>(type: "int", nullable: true)
+                    GuestId = table.Column<int>(type: "int", nullable: true),
+                    IsLate = table.Column<bool>(type: "tinyint(1)", nullable: true),
+                    DepartureDate = table.Column<DateTime>(type: "datetime(6)", nullable: true)
                 },
                 constraints: table =>
                 {
