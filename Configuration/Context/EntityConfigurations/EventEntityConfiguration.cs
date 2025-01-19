@@ -31,6 +31,7 @@ public class EventEntityConfiguration : IEntityTypeConfiguration<EventEntity>
         
         
         builder.Property(e => e.AllGuest);
+        builder.Property(e => e.IsOpen);
 
         builder.Property(e => e.Description)
             .HasMaxLength(1000)

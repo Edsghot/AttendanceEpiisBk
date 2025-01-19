@@ -17,5 +17,6 @@ public record EventEntity
     public bool AllTeacher { get; set; }
     public bool AllStudent { get; set; }
     public bool AllGuest { get; set; }
+    public bool IsOpen { get; set; }
     public ICollection<AttendanceEntity> Attendances { get; set; } = new List<AttendanceEntity>();
 }

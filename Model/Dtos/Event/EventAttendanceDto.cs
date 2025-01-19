@@ -14,4 +14,5 @@ public record EventAttendanceDto
     public bool AllTeacher { get; set; }
     public bool AllStudent { get; set; }
     public bool AllGuest { get; set; }
+    public bool IsOpen { get; set; }
 }

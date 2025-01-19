@@ -236,7 +236,6 @@ public class AttendanceAdapter : IAttendanceInputPort
             _attendanceOutPort.Success(new object(), "La asistencia de salida ya fue tomada!");
             return;
         }
-        attendance.IsLate = attendanceDto.IsLate;
         attendance.DepartureDate = peruDateTime;
         attendance.IsExit = true;
         var resTeacher = teacher.Adapt<ParticipantDataDto>();
