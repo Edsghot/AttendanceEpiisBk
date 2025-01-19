@@ -181,6 +181,7 @@ public class AttendanceAdapter : IAttendanceInputPort
         var resGuest = guest.Adapt<ParticipantDataDto>();
         resGuest.Role = 2;
         attendance.Date = peruDateTime;
+        attendance.DepartureDate = null;
         attendance.EventId = attendanceDto.EventId;
         attendance.IsLate = attendanceDto.IsLate;
         attendance.IsPresent = true;
@@ -196,6 +197,7 @@ public class AttendanceAdapter : IAttendanceInputPort
     
     attendance.IsLate = attendanceDto.IsLate;
     attendance.Date = peruDateTime;
+    attendance.DepartureDate = null;
     attendance.EventId = attendanceDto.EventId;
     attendance.IsPresent = true;
 
