@@ -37,6 +37,7 @@ public class MySqlContext : DbContext
         modelBuilder.ApplyConfiguration(new AttendanceEntityConfiguration());
         modelBuilder.ApplyConfiguration(new EventEntityConfiguration());
         modelBuilder.ApplyConfiguration(new StudentEntityConfiguration());    
-        modelBuilder.ApplyConfiguration(new GuestEntityConfiguration());   
+        modelBuilder.ApplyConfiguration(new GuestEntityConfiguration()); 
+        modelBuilder.ApplyConfiguration(new UserEntityConfiguration());   
     }
 }

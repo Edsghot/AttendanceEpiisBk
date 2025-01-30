@@ -5,7 +5,6 @@ using AttendanceEpiisBk.Modules.Teacher.Domain.IRepository;
 using AttendanceEpiisBk.Modules.Teacher.Infraestructure.Presenter;
 using AttendanceEpiisBk.Modules.Teacher.Infraestructure.Repository;
 using Mapster;
-using Microsoft.EntityFrameworkCore;
 using AttendanceEpiisBk.Mapping;
 using AttendanceEpiisBk.Model.Dtos.Teacher;
 using AttendanceEpiisBk.Modules.Attendance.Application.Adapter;
@@ -22,6 +21,12 @@ using AttendanceEpiisBk.Modules.Student.Application.Port;
 using AttendanceEpiisBk.Modules.Student.Domain.IRepository;
 using AttendanceEpiisBk.Modules.Student.Infraestructure.Presenter;
 using AttendanceEpiisBk.Modules.Student.Infraestructure.Repository;
+using AttendanceEpiisBk.Modules.User.Application.Adapter;
+using AttendanceEpiisBk.Modules.user.Application.Port;
+using AttendanceEpiisBk.Modules.User.Application.Port;
+using AttendanceEpiisBk.Modules.User.Domain.IRepository;
+using AttendanceEpiisBk.Modules.User.Infraestructure.Presenter;
+using AttendanceEpiisBk.Modules.User.Infraestructure.Repository;
 using FluentValidation;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -52,6 +57,11 @@ builder.Services.AddScoped<IEventOutPort, EventPresenter>();
 builder.Services.AddScoped<IAttendanceInputPort, AttendanceAdapter>();
 builder.Services.AddScoped<IAttendanceRepository, AttendanceRepository>();
 builder.Services.AddScoped<IAttendanceOutPort, AttendancePresenter>();
+
+
+builder.Services.AddScoped<IUserInputPort, UserAdapter>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserOutPort, UserPresenter>();
 
 
 builder.Services.AddScoped<IValidator<TeacherDto>, TeacherDtoValidator>();
