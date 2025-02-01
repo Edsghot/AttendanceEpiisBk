@@ -15,4 +15,5 @@ public record UserEntity
     public string Password { get; set; } = string.Empty;
     public bool Gender { get; set; }
     public string Dni { get; set; } = string.Empty;
+    
 }

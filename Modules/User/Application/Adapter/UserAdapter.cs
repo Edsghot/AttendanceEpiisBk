@@ -65,7 +65,14 @@ public class UserAdapter : IUserInputPort
             return;
         }
 
-        existingUser = data.Adapt(existingUser);
+        existingUser.NameUser = data.NameUser;
+        existingUser.Mail = data.Mail;
+        existingUser.Dni = data.Dni;
+        existingUser.Gender = data.Gender;
+        existingUser.Phone = data.Phone;
+        existingUser.LastName = data.LastName;
+        existingUser.Name = data.Name;
+        
         if (!string.IsNullOrEmpty(data.Password))
         {
             existingUser.Password = BCrypt.Net.BCrypt.HashPassword(data.Password);

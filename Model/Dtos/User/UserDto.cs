@@ -8,7 +8,7 @@ public record UserDto
     public string Mail { get; set; } = string.Empty;
     public string NameUser { get; set; } = string.Empty;
     public string Phone { get; set; } = string.Empty;
-    public string Password { get; set; } = string.Empty;
+    public string? Password { get; set; } = string.Empty;
     public bool Gender { get; set; }
     public string Dni { get; set; } = string.Empty;
 
