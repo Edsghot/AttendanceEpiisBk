@@ -208,5 +208,46 @@ public class EventAdapter : IEventInputPort
             await _eventRepository.UpdateAsync(eventData);
             await _eventRepository.SaveChangesAsync();
             _eventOutPort.SuccessMessage( "Evento cerrado con exito");
-        }     
+        }   
+        
+        public async Task UpdateEventAsync(EventDto data)
+        {
+            var existingEvent = await _eventRepository.GetAsync<EventEntity>(x => x.IdEvent == data.IdEvent);
+            if (existingEvent == null)
+            {
+                _eventOutPort.Error("No se encontró el evento que quieres actualizar");
+                return;
+            }
+
+            existingEvent.Name = data.Name;
+            existingEvent.Date = data.Date;
+            existingEvent.StartTime = data.StartTime;
+            existingEvent.EndTime = data.EndTime;
+            existingEvent.Location = data.Location;
+            existingEvent.IsPrivate = data.IsPrivate;
+            existingEvent.Description = data.Description;
+            existingEvent.EventTypeId = data.EventTypeId;
+            existingEvent.AllTeacher = data.AllTeacher;
+            existingEvent.AllStudent = data.AllStudent;
+            existingEvent.AllGuest = data.AllGuest;
+            existingEvent.IsOpen = data.IsOpen;
+
+            await _eventRepository.UpdateAsync(existingEvent);
+            await _eventRepository.SaveChangesAsync();
+            _eventOutPort.Success(existingEvent, "Evento actualizado exitosamente.");
+        }
+
+        public async Task DeleteEventAsync(int id)
+        {
+            var existingEvent = await _eventRepository.GetAsync<EventEntity>(x => x.IdEvent == id);
+            if (existingEvent == null)
+            {
+                _eventOutPort.Error("No se encontró el evento que quieres eliminar");
+                return;
+            }
+
+            await _eventRepository.DeleteAsync(existingEvent);
+            await _eventRepository.SaveChangesAsync();
+            _eventOutPort.Success(existingEvent, "Evento eliminado exitosamente.");
+        }
 }

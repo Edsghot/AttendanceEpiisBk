@@ -104,15 +104,22 @@ public class EventController : ControllerBase
     }
 
     
-    // PUT api/<ResearchController>/5
-    [HttpPut("{id}")]
-    public void Put(int id, [FromBody] string value)
+    [HttpPut("UpdateEvent")]
+    public async Task<IActionResult> UpdateEvent([FromBody] EventDto eventDto)
     {
+        await _eventInputPort.UpdateEventAsync(eventDto);
+        var response = _eventOutPort.GetResponse;
+
+        return Ok(response);
     }
 
-    // DELETE api/<ResearchController>/5
-    [HttpDelete("{id}")]
-    public void Delete(int id)
+    
+    [HttpDelete("DeleteEvent/{id:int}")]
+    public async Task<IActionResult> DeleteEvent([FromRoute] int id)
     {
+        await _eventInputPort.DeleteEventAsync(id);
+        var response = _eventOutPort.GetResponse;
+
+        return Ok(response);
     }
 }

@@ -15,5 +15,6 @@ public interface IEventInputPort
     Task DeleteGuest(int id);
     Task UpdateGuest(GuestDto data);
     Task CloseEvent(int idEvent);
-
+    Task UpdateEventAsync(EventDto data);
+    Task DeleteEventAsync(int id);
 }
